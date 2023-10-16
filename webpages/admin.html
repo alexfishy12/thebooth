@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>The Booth</title>
+<p>ADMIN</p>
+</head>
+<body>
+<b>Accounts Management: Add a User</b>
+<form action=""> <!-- requires php file to save info to database-->
+    <label for="username">Account Name:</label><br>
+    <input type="email" id="username" name="username"><br>
+    <label for="pwd">Account Password:</label><br>
+    <input type="password" id="pwd" name="pwd"><br><br>
+    <p>Account Type:</p>
+        <input type="radio" id="manager" name="acct_type" value="Manager">
+        <label for="manager">Manager</label><br>
+        <input type="radio" id="customer" name="acct_type" value="Customer">
+        <label for="customer">Customer</label><br>
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>
