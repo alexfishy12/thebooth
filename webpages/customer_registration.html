@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The Booth</title>
+    <!-- Set charset and viewport -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Load bootstrap icons and stylesheet -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="../sharedcode/styles.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+  <!-- Navigation-->
+  <div id="navbar-container"></div>
+
+  <div class="container px-4 px-lg-5 mt-5">
+    <div class="text-center"> 
+          <b>Sign-Up for</b> <i>The Booth!</i>
+          <form action=""> <!-- requires php file -->
+              <label for="name">Name:</label><br>
+              <input type="text" id="name" name="name"><br>
+              <label for="address">Address:</label><br>
+              <input type="text" id="address" name="cust_address"><br><br>
+              <label for="billing">Billing Information:</label><br>
+              <input type="text" id="billing" name="billing"><br><br>
+              <label for="username">Email:</label><br>
+              <input type="email" id="username" name="username"><br>
+              <label for="pwd">Password:</label><br>
+              <input type="password" id="pwd" name="pwd"><br><br>
+              <p>Upload an image of yourself:</p>
+              <input type="file" id="photo" name="cust_photo">
+              <input type="submit" value="Enter the Booth">
+          </form> 
+        </div>
+      </div>
+  <!-- Scripts -->
+  <script src="../sharedcode/scripts.js"></script>
+</body>
+</html>
