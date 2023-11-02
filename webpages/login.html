@@ -17,21 +17,19 @@
     <div id="navbar-container"></div>
 
     <div class="container px-4 px-lg-5 mt-5">
-        <div class="text-center"> 
+        <div class="text-center">
             <h2>Login</h2>
-            <form>
+            <form style="display: flex; flex-direction: column; align-items: center;">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
-                <br>
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-                <br>
-                <button type="submit">Submit</button>
+                <input type="password" id="password" name="password" required style="margin-bottom: 10px;">
+                <input type="submit" value="Submit">
             </form>
-            No Account? Register <a id="registration" href="../webpages/customer_registration.html">Here</a>
+            <p>No Account? Register <a id="registration" href="../webpages/customer_registration.html">Here</a></p>
         </div>
-    </div>
-
+    </div>    
+    
     <!-- Scripts -->
     <script src="../sharedcode/scripts.js"></script>
 </body>

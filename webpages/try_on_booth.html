@@ -16,38 +16,41 @@
     <!-- Navigation-->
     <div id="navbar-container"></div>
 
-<!-- display AI image -->
-
-    <div class="dropdown">
-        <button class="dropbtn">Color</button>
-        <div class="dropdown-content">
-          <a href="#">red</a> <!-- href generates AI image with color -->
-          <a href="#">blue</a> <!-- href generates AI image with color -->
-          <a href="#">green</a> <!-- href generates AI image with color -->
-          <a href="#">black</a> <!-- href generates AI image with color -->
-          <a href="#">purple</a> <!-- href generates AI image with color -->
+  <!-- display AI image -->
+  <section class="py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="row gx-4 gx-lg-5 align-items-center">
+            <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /></div>
+            <div class="col-md-6">
+              <div class="dropdown">
+                <button class="dropbtn">Color</button>
+                <div class="dropdown-content">
+                  <a href="#">red</a> <!-- href generates AI image with color -->
+                  <a href="#">blue</a> <!-- href generates AI image with color -->
+                  <a href="#">green</a> <!-- href generates AI image with color -->
+                  <a href="#">black</a> <!-- href generates AI image with color -->
+                  <a href="#">purple</a> <!-- href generates AI image with color -->
+                </div>
+              </div>
+            <div class="dropdown">
+                <button class="dropbtn">Size</button>
+                <div class="dropdown-content">
+                  <a href="#">XS</a> <!-- href generates AI image with size -->
+                  <a href="#">S</a> <!-- href generates AI image with size -->
+                  <a href="#">M</a> <!-- href generates AI image with size -->
+                  <a href="#">L</a> <!-- href generates AI image with size -->
+                  <a href="#">XL</a> <!-- href generates AI image with size -->
+            </div>
+            </div>
+              <input type="submit" value="Preview outfit" style="margin-bottom: 10px;">
+              <br>
+              <button type="button" onclick= >Add to cart</button>
+            </div>
         </div>
     </div>
+</section>
 
-    <div class="dropdown">
-        <button class="dropbtn">Size</button>
-        <div class="dropdown-content">
-          <a href="#">XS</a> <!-- href generates AI image with size -->
-          <a href="#">S</a> <!-- href generates AI image with size -->
-          <a href="#">M</a> <!-- href generates AI image with size -->
-          <a href="#">L</a> <!-- href generates AI image with size -->
-          <a href="#">XL</a> <!-- href generates AI image with size -->
-        </div>
-    </div>
-
-<!-- display clothing description -->
-
-    <input type="submit" value="Preview outfit">
-    <button type="button" onclick= >Add to cart</button> <!-- requires onclick to add item to cart -->
-    <!-- display other items in cart -->
-    <!-- display recommendations -->
-
-    <!-- Scripts -->
-    <script src="../sharedcode/scripts.js"></script>
+  <!-- Scripts -->
+  <script src="../sharedcode/scripts.js"></script>
 </body>
 </html>
