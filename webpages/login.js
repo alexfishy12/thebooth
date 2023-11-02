@@ -7,32 +7,22 @@ $(document).ready(function() {
             values[field.name] = field.value;
         });
 
-        try_login(values['email'], values['password']).then(function(response) {
-            console.log(response);
-            if (response.status = "") {
-                window.location.replace(response.split(":")[1])
-            }
-            else if (response.startsWith("ERROR")) {
-                $("#errorMessage").html(response.split(":")[1])
+        server_request("../_php/login.php", "POST", values).then(function(response) {
+            // handle response from server
+            switch (response.status) {
+                case "success":
+                    window.location.replace("main_page.html");
+                    break;
+                case "failure":
+                    $("#error_message").html(response.data);
+                    break;
+                case "error":
+                    console.error(response.data);
+                    break;
+                default:
+                    console.log(response)
+                    break;
             }
         });
     })
 })
-
-function try_login(email, password) {
-    return new Promise(function(resolve) {
-        $.ajax({
-            type: 'POST',
-            url: '../_php/login.php',
-            data: {email: email, password: password},
-            success: function (response, status) {
-                console.log('AJAX Success.');
-                resolve(response);
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                console.log('AJAX Error:' + textStatus);
-                resolve("Error " . textStatus);
-            }
-        })
-    });
-}
