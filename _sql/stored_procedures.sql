@@ -48,6 +48,7 @@ END //
 
 
 -- ADD NEW USER STORED PROCEDURE (USE THIS FOR CREATING A USER -- IT AUTOMATICALLY SALTS AND HASHES PASSWORD)
+DROP PROCEDURE IF EXISTS Add_Account;
 DELIMITER //
 CREATE PROCEDURE `Add_Account`(
 	IN p_email NVARCHAR(200),
@@ -69,12 +70,12 @@ BEGIN
     END IF;
     SET @p_email = p_email;
     -- Check if username exists
-    PREPARE stmt FROM "select count(ID) > 0 into @userExists from the_booth.Account where email = ?;";
+    PREPARE stmt FROM "select count(id) > 0 into @userExists from the_booth.Account where email = ?;";
     EXECUTE stmt using @p_email;
     DEALLOCATE PREPARE stmt;
     IF @userExists = 1 THEN -- if username exists, return error
         SET @responseMessage = CONCAT("ERROR: Email already taken.");
-        SELECT @responseMessage;
+        SELECT @responseMessage as "Response";
         LEAVE whole_proc;
     END IF;
     BEGIN 
@@ -91,7 +92,7 @@ BEGIN
         SET @salt = UUID();
         SET @bin_salt = UUID_TO_BIN(@salt);
         SET @passhash = UNHEX(SHA2(CONCAT(@p_password, @salt), 512));  -- Hash the password with salt and convert to binary
-        PREPARE stmt FROM "INSERT INTO the_booth.Account (email, first_name, last_name, password, salt, type, store_name, created) VALUES(?, ?, ?, ?, ?, ?, ?, NOW())";
+        PREPARE stmt FROM "INSERT INO the_booth.Account (email, first_name, last_name, password, salt, type, store_name, created) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
         EXECUTE stmt using @p_email, @p_first_name, @p_last_name, @passhash, @bin_salt, @p_account_type, @p_store_name;
         DEALLOCATE PREPARE stmt;
 		-- Set responseMessage variable to Success if the insert was successful
@@ -100,3 +101,7 @@ BEGIN
     END;
 END //
 DELIMITER ;
+
+call Add_Account("fisheral@kean.edu", "Alexander", "Fisher", "test123", "M", "Nike");
+
+select * from the_booth.account;
