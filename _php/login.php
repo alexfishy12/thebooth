@@ -4,13 +4,13 @@
     //attempt to connect to database
     define("IN_CODE", 1);
     include("dbconfig.php");
-    $con = mysqli_connect($dbserver, $dbuser, $dbpass, $dbname) or print_json_error("Cannot connect to DB.");
+    $con = mysqli_connect($dbserver, $dbuser, $dbpass, $dbname) or return_json_error("Cannot connect to DB.");
 
     if (!isset($_POST['email'])) {
-        print_json_error("Form submit error: Did not receive email.");
+        return_json_error("Form submit error: Did not receive email.");
     }
     if (!isset($_POST['password'])) {
-        print_json_error("Form submit error: Did not receive password.");
+        return_json_error("Form submit error: Did not receive password.");
     }
 
     // get form data
@@ -32,12 +32,12 @@
 
     // if username doesn't exist, kill program
     if (mysqli_num_rows($result) < 1) {
-        print_json_error("Email is not linked to any account with us.");
+        return_json_error("Email is not linked to any account with us.");
     }
 
     // check if password is correct
     // Prepare statement
-    $stmt = $con->prepare("SELECT id, email, first_name, last_name, type, store_name, created first FROM the_booth.Account where email = ? and password = ?");
+    $stmt = $con->prepare("SELECT id, email, first_name, last_name, type, store_name, created first FROM the_booth.Account where email = ? and password = SHA2(?, 256)");
 
     // bind parameters
     $stmt->bind_param('ss', $email, $password);
@@ -50,7 +50,7 @@
 
     // if password is incorrect, kill program
     if (mysqli_num_rows($result) < 1) {
-        print_json_error("Incorrect password.");
+        return_json_error("Incorrect password.");
     }
     
     $account_info = mysqli_fetch_array($result);
@@ -60,5 +60,5 @@
     $_SESSION['expire'] = $_SESSION['start'] + (3600);
     $_SESSION["account_info"] = $account_info;
 
-    print_json_success("Login successful.");
+    return_json_success("Login successful.");
 ?>

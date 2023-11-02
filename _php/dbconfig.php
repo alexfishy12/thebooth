@@ -2,8 +2,8 @@
     if (!defined("IN_CODE")){
         die("Not an entry point.");
     }
-    $dbuser = "root";
-    $dbpass = "";
+    $dbuser = "fisheral";
+    $dbpass = "1117936";
     $dbname = "the_booth";
-    $dbserver = "127.0.0.1";
+    $dbserver = "imc.kean.edu";
 ?>

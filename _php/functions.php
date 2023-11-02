@@ -1,7 +1,7 @@
 <?php 
     function return_json_success($data) {
         $response = array(
-            "success" => true,
+            "status" => "success",
             "data" => $data
         );
         echo json_encode($response);
@@ -10,7 +10,7 @@
 
     function return_json_error($data) {
         $response = array(
-            "success" => false,
+            "status" => "error",
             "data" => $data
         );
         echo json_encode($response);

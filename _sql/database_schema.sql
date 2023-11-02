@@ -1,26 +1,22 @@
 create database the_booth;
 use the_booth;
 
-
+drop table Account;
 create table Account (
     id int primary key not null auto_increment,
     email varchar(255) UNIQUE not null,
-    first_name varchar(255) not null,
-    last_name varchar(255) not null,
-    password varchar(255) not null,
-    salt binary(16) not null,
+    first_name varchar(50) not null,
+    last_name varchar(50) not null,
+    password varchar(100) not null,
     type char(1) not null,
     store_name varchar(255),
     created datetime not null
 );
 
-
+delete from Account;
 -- The admin account will be the only account that can create new store accounts.
-insert into Account (email, first_name, last_name, password, store_name, created) values 
-('fisheral@kean.edu', 'Alexander', 'Fisher', 'abc123', 'Nike', now());
-
-insert into Account_Type (id, type) values (LAST_INSERT_ID(), 'A');
-
+insert into Account (email, first_name, last_name, password, type, store_name, created) values 
+('fisheral@kean.edu', 'Alexander', 'Fisher', SHA2('abc123', 256), 'A', NULL , now());
 
 -- Each store that buys our software will have their own database. The database name will be the store's name.
 -- Each database instance will be identical in structure. The only difference will be the data inside.
