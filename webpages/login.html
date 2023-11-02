@@ -15,26 +15,23 @@
 <body>
     <!-- Navigation-->
     <div id="navbar-container"></div>
-    
-    <!--Header -->
+
     <div class="container px-4 px-lg-5 mt-5">
         <div class="text-center"> 
-            <h1 class="display-4 fw-bolder">Store Order History</h1>
+            <h2>Login</h2>
+            <form>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+                <br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <br>
+                <button type="submit">Submit</button>
+            </form>
+            No Account? Register <a id="registration" href="../webpages/customer_registration.html">Here</a>
         </div>
     </div>
-    <!-- Table -->
-    <div class="container px-4 px-lg-5 mt-5">
-        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"> 
-            <table border="1" id="order-table">
-                <tr>
-                    <th>Order Number</th>
-                    <th>Order Date</th>
-                    <th>Price</th>
-                    <th>Status</th>
-                </tr>
-            </table>
-        </div>        
-    </div>
+
     <!-- Scripts -->
     <script src="../sharedcode/scripts.js"></script>
 </body>
