@@ -21,7 +21,7 @@
     
         // check if username exists
         // Prepare statement
-        $stmt = $con->prepare("SELECT id FROM the_booth.Account where email = ?");
+        $stmt = $con->prepare("SELECT id FROM the_booth.Admin where email = ?");
     
         // bind parameters
         $stmt->bind_param('s', $email);
@@ -39,7 +39,7 @@
     
         // check if password is correct
         // Prepare statement
-        $stmt = $con->prepare("SELECT id, email, first_name, last_name, type, store_name, created first FROM the_booth.Account where email = ? and password = SHA2(?, 256)");
+        $stmt = $con->prepare("SELECT id, email, first_name, last_name, type, store_name, created first FROM the_booth.Admin where email = ? and password = SHA2(?, 256)");
     
         // bind parameters
         $stmt->bind_param('ss', $email, $password);
