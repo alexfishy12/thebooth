@@ -1,6 +1,6 @@
 //Load shared navbar into container
 $(document).ready(function () {
-    $('#navbar-container').load('../sharedcode/nav.html');
+    $('#navbar-container').load('../sharedcode/nav.php');
 });
 
 //Login/Register Windows Pop-ups

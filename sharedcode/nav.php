@@ -16,6 +16,28 @@
                     </ul>
                 </li>
             </ul>
+            <?php 
+                if (isset($_COOKIE['customer_account_info'])) {
+                    $account_info = json_decode($_COOKIE['customer_account_info']);
+                    $first_name = $account_info['first_name'];
+                    $last_name = $account_info['last_name'];
+                    echo <<<HTML
+                        <a href="customer_account_page.html" class="text-decoration-none" style="margin-right:10px;">
+                            $first_name $last_name
+                            <i class="bi bi-person-circle"></i>
+                        </a>
+                    HTML;
+                }
+                else {
+                    echo <<<HTML
+                        <a href="customer_login.html" class="text-decoration-none" style="margin-right:10px;">
+                            Login
+                            <i class="bi bi-person-circle"></i>
+                        </a>
+                    HTML;
+                }
+            ?>
+            
             <form class="d-flex">
                 <button class="btn btn-outline-dark" type="submit">
                     <i class="bi-cart-fill me-1"></i>

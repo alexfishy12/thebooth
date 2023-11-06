@@ -1,22 +1,19 @@
 create database the_booth;
 use the_booth;
 
-drop table Account;
-create table Account (
+drop table if exists Admin;
+create table Admin (
     id int primary key not null auto_increment,
     email varchar(255) UNIQUE not null,
     first_name varchar(50) not null,
     last_name varchar(50) not null,
     password varchar(100) not null,
-    type char(1) not null,
-    store_name varchar(255),
     created datetime not null
 );
 
-delete from Account;
 -- The admin account will be the only account that can create new store accounts.
-insert into Account (email, first_name, last_name, password, type, store_name, created) values 
-('fisheral@kean.edu', 'Alexander', 'Fisher', SHA2('abc123', 256), 'A', NULL , now());
+insert into Admin (email, first_name, last_name, password, created) values 
+('fisheral@kean.edu', 'Alexander', 'Fisher', SHA2('abc123', 256), now());
 
 -- Each store that buys our software will have their own database. The database name will be the store's name.
 -- Each database instance will be identical in structure. The only difference will be the data inside.
@@ -24,7 +21,8 @@ insert into Account (email, first_name, last_name, password, type, store_name, c
 
 create database store_template;
 use store_template;
-
+drop table if exists Product_Size, Product_Color, Product_Category, Product_Image, Category, Color, Size, Product;
+drop table if exists Customer_Image, Review,  Product_Order, `Order`, Customer;
 
 create table Category (
     id int primary key not null auto_increment,
@@ -88,6 +86,15 @@ create table Product_Category (
     foreign key (category_id) references Category(id)
 );
 
+create table Employee (
+	id int primary key not null auto_increment,
+    email varchar(255) UNIQUE not null,
+    first_name varchar(50) not null,
+    last_name varchar(50) not null,
+    password varchar(100) not null,
+    type char(1) not null,
+    created datetime not null
+);
 
 create table Customer (
     id int primary key not null auto_increment,
@@ -95,14 +102,12 @@ create table Customer (
     last_name varchar(255) not null,
     email varchar(255) UNIQUE not null,
     password varchar(255) not null,
-    salt binary(64) not null,
     address varchar(255) not null,
     city varchar(255) not null,
     state varchar(255) not null,
     zip varchar(255) not null,
     created datetime not null
 );
-
 
 create table Customer_Image (
     id int primary key not null auto_increment,
