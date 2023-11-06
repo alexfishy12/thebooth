@@ -15,21 +15,21 @@
 <body>
     <!-- Navigation-->
     <div id="navbar-container"></div>
-
+    
     <div class="container px-4 px-lg-5 mt-5">
-        <div class="text-center">
-            <h2>Login</h2>
-            <form style="display: flex; flex-direction: column; align-items: center;">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required style="margin-bottom: 10px;">
+        <div class="text-center"> 
+            <b>Sign-In</b>
+            <form id="login">
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email"><br>
+                <label for="password">Password:</label><br>
+                <input type="password" id="password" name="password"><br><br>
                 <input type="submit" value="Submit">
             </form>
             <p>No Account? Register <a id="registration" href="../webpages/customer_registration.html">Here</a></p>
+            <span class="error" id="error_message"></span>
         </div>
     </div>    
-    
     <!-- Scripts -->
     <script src="../sharedcode/scripts.js"></script>
 </body>
