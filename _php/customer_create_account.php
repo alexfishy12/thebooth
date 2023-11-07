@@ -65,8 +65,12 @@
         $error_string = $error_string . "Form submit error: Zipcode not received.\n";
         $variable_not_set = true;
     }
-    if (!isset($_POST['image'])) {
+    if (!isset($_FILES['image'])) {
         $error_string = $error_string . "Form submit error: Image not received.\n";
+        $variable_not_set = true;
+    }
+    if ($_FILES["image"]["error"] != 0) {
+        $error_string = $error_string . "Form submit error: Image upload failed.\n";
         $variable_not_set = true;
     }
 
