@@ -81,8 +81,20 @@
         $account_info = json_encode($account_info);
         
         // set cookie variable with user account info
-        setcookie("customer_account_info", $account_info, time() + 3600);
-        return_json_success("Login successful.");
+        setcookie("customer_account_info", $account_info, time() + 3600, '/');
+
+        $success_html = <<<HTML
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <h1>Welcome to The Booth, $first_name!</h1>
+                        Redirecting to main page...
+                    </div>
+                </div>
+            </div>
+        HTML;
+
+        return_json_success($success_html);
     }
     catch (Exception $e) {
         // This will catch PHP exceptions and return as JSON

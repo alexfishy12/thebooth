@@ -18,17 +18,20 @@
     <div id="navbar-container"></div>
     
     <div class="container px-4 px-lg-5 mt-5">
-        <div class="text-center"> 
-            <b>Sign-In</b>
-            <form id="login"> <!-- requires php file to save info to database-->
-                <label for="email">Email:</label><br>
-                <input type="email" id="email" name="email"><br>
-                <label for="password">Password:</label><br>
-                <input type="password" id="password" name="password"><br><br>
-                <input type="submit" value="Submit">
-            </form>
-            <span class="error" id="error_message"></span>
-            Don't have an account? <a href="customer_registration.html">Sign up here!</a>
+        <div class="text-center">
+            <div id="sign_in_form">
+                <b>Sign-In</b>
+                <form id="login"> <!-- requires php file to save info to database-->
+                    <label for="email">Email:</label><br>
+                    <input type="email" id="email" name="email"><br>
+                    <label for="password">Password:</label><br>
+                    <input type="password" id="password" name="password"><br><br>
+                    <input type="submit" value="Submit">
+                </form>
+                <span class="error" id="error_message"></span><br>
+                Don't have an account? <a href="customer_registration.html">Sign up here!</a>
+            </div>
+            <div id="success_message"></div>
         </div>
     </div>    
     <!-- Scripts -->

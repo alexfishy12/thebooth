@@ -15,6 +15,8 @@ function server_request(url, method, data = null) {
             type: method,
             url: url,
             data: data,
+            processData: false, // Prevent serialization of the FormData object
+            contentType: false, // Let the browser set the correct content type for FormData
             success: function (response, status) {
                 // AJAX Success, server responded
                 try {
