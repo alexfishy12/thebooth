@@ -1,52 +1,20 @@
 //Load shared navbar into container, load login button
 $(document).ready(function () {
-    $('#navbar-container').load('../sharedcode/nav.html', function() {
-        const loginButton = document.getElementById("loginButton");
-        if (loginButton) {
-            loginButton.addEventListener("click", function() {
-                const loginPageUrl = "../webpages/customer_login.html";
-                window.location.href = loginPageUrl;
-            });
-        }
-    });
+    $('#navbar-container').load('../sharedcode/nav.php');
 });
 
-//Login Script
-$(document).ready(function() {
-    console.log("JS connected.")
-    $("form#login").submit(function(e) {
-        e.preventDefault();
-        var values = {};
-        $.each($('form#login').serializeArray(), function(i, field) {
-            values[field.name] = field.value;
-        });
-
-        server_request("../_php/login.php", "POST", values).then(function(response) {
-            // handle response from server
-            switch (response.status) {
-                case "success":
-                    window.location.replace("../webpages/main_page.html");
-                    break;
-                case "failure":
-                    $("#error_message").html(response.data);
-                    break;
-                case "error":
-                    console.error(response.data);
-                    break;
-                default:
-                    console.log(response)
-                    break;
-            }
-        });
-    })
-})
-//Server Request Function
+// Make an AJAX server request
+// method: GET or POST
+// url: URL to send request to
+// data: Data to send to server (if any), can be left blank
 function server_request(url, method, data = null) {
     return new Promise(function(resolve) {
         $.ajax({
             type: method,
             url: url,
             data: data,
+            processData: false, // Prevent serialization of the FormData object
+            contentType: false, // Let the browser set the correct content type for FormData
             success: function (response, status) {
                 // AJAX Success, server responded
                 try {
