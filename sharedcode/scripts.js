@@ -1,8 +1,3 @@
-//Load shared navbar into container, load login button
-$(document).ready(function () {
-    $('#navbar-container').load('../sharedcode/nav.php');
-});
-
 // Make an AJAX server request
 // method: GET or POST
 // url: URL to send request to

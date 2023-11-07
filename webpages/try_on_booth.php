@@ -14,7 +14,7 @@
 
 <body>
     <!-- Navigation-->
-    <div id="navbar-container"></div>
+    <div id="navbar-container"><?php include("../sharedcode/nav.php"); ?></div>
 
   <!-- display AI image -->
   <section class="py-5">

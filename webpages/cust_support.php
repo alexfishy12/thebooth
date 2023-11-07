@@ -14,27 +14,17 @@
 
 <body>
     <!-- Navigation-->
-    <div id="navbar-container"></div>
-    
-    <!--Header -->
+    <div id="navbar-container"><?php include("../sharedcode/nav.php"); ?></div>
+    <!-- Customer Support Message BoX-->
     <div class="container px-4 px-lg-5 mt-5">
         <div class="text-center"> 
-            <h1 class="display-4 fw-bolder">Store Order History</h1>
+            <h1 class="display-4 fw-bolder">Contact Customer Support</h1>
+            <textarea id="freeform" name="freeform" rows="6" cols="50">Please enter your customer service request here</textarea>
+            <br>
+            <input type="submit" value="Submit">
         </div>
     </div>
-    <!-- Table -->
-    <div class="container px-4 px-lg-5 mt-5">
-        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"> 
-            <table border="1" id="order-table">
-                <tr>
-                    <th>Order Number</th>
-                    <th>Order Date</th>
-                    <th>Price</th>
-                    <th>Status</th>
-                </tr>
-            </table>
-        </div>        
-    </div>
+
     <!-- Scripts -->
     <script src="../sharedcode/scripts.js"></script>
 </body>

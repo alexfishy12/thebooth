@@ -14,16 +14,20 @@
 
 <body>
     <!-- Navigation-->
-    <div id="navbar-container"></div>
-    <!-- Customer Support Message BoX-->
-    <div class="container px-4 px-lg-5 mt-5">
-        <div class="text-center"> 
-            <h1 class="display-4 fw-bolder">Contact Customer Support</h1>
-            <textarea id="freeform" name="freeform" rows="6" cols="50">Please enter your customer service request here</textarea>
-            <br>
-            <input type="submit" value="Submit">
-        </div>
-    </div>
+    <div id="navbar-container"><?php include("../sharedcode/nav.php"); ?></div>
+<b>Accounts Management: Add a User</b>
+<form action=""> <!-- requires php file to save info to database-->
+    <label for="username">Account Name:</label><br>
+    <input type="email" id="username" name="username"><br>
+    <label for="pwd">Account Password:</label><br>
+    <input type="password" id="pwd" name="pwd"><br><br>
+    <p>Account Type:</p>
+        <input type="radio" id="manager" name="acct_type" value="Manager">
+        <label for="manager">Manager</label><br>
+        <input type="radio" id="customer" name="acct_type" value="Customer">
+        <label for="customer">Customer</label><br>
+    <input type="submit" value="Submit">
+</form>
 
     <!-- Scripts -->
     <script src="../sharedcode/scripts.js"></script>

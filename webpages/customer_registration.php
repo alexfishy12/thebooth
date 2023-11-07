@@ -14,7 +14,7 @@
 
 <body>
   <!-- Navigation-->
-    <div id="navbar-container"></div>
+    <div id="navbar-container"><?php include("../sharedcode/nav.php"); ?></div>
 
     <div class="container px-4 px-lg-5 mt-5">
         <div class="text-center">

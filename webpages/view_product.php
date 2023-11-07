@@ -14,7 +14,7 @@
 
 <body>
     <!-- Navigation-->
-    <div id="navbar-container"></div>
+    <div id="navbar-container"><?php include("../sharedcode/nav.php"); ?></div>
 
         <!-- Product section-->
         <section class="py-5">

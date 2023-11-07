@@ -14,7 +14,7 @@
 
 <body>
     <!-- Navigation-->
-    <div id="navbar-container"></div>
+    <div id="navbar-container"><?php include("../sharedcode/nav.php"); ?></div>
     <h1>Add New Product</h1>
     <!-- display order status, date, total, user, status -->
     <form action=""> <!-- requires php file to save info to database-->

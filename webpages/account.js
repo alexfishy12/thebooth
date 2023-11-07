@@ -14,7 +14,7 @@ $(document).ready(function() {
                     $("#sign_in_form").hide();
                     $("#success_message").html(response.data);
                     setTimeout(function() {
-                        window.location.replace("main_page.html");
+                        window.location.replace("main_page.php");
                     }, 2000);
                     break;
                 case "failure":
@@ -43,7 +43,7 @@ $(document).ready(function() {
                     $("#sign_up_form").hide();
                     $("#success_message").html(response.data);
                     setTimeout(function() {
-                        window.location.replace("main_page.html");
+                        window.location.replace("main_page.php");
                     }, 2000);
                     break;
                 case "failure":
