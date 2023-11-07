@@ -21,7 +21,7 @@
     
         // check if username exists
         // Prepare statement
-        $stmt = $con->prepare("SELECT id FROM the_booth.Admin where email = ?");
+        $stmt = $con->prepare("SELECT id FROM store_template.Customer where email = ?");
     
         // bind parameters
         $stmt->bind_param('s', $email);
@@ -39,7 +39,7 @@
     
         // check if password is correct
         // Prepare statement
-        $stmt = $con->prepare("SELECT id, email, first_name, last_name, type, store_name, created first FROM the_booth.Admin where email = ? and password = SHA2(?, 256)");
+        $stmt = $con->prepare("SELECT id, first_name, last_name, email, address, city, state, zip, created FROM store_template.Customer where email = ? and password = SHA2(?, 256)");
     
         // bind parameters
         $stmt->bind_param('ss', $email, $password);
@@ -56,10 +56,45 @@
         }
         
         $account_info = mysqli_fetch_array($result);
+        $id = $account_info['id'];
+        $first_name = $account_info['first_name'];
+        $last_name = $account_info['last_name'];
+        $email = $account_info['email'];
+        $address = $account_info['address'];
+        $city = $account_info['city'];
+        $state = $account_info['state'];
+        $zip = $account_info['zip'];
+        $created = $account_info['created'];
+
+        $account_info = array(
+            "id" => $id,
+            "first_name" => $first_name,
+            "last_name" => $last_name,
+            "email" => $email,
+            "address" => $address,
+            "city" => $city,
+            "state" => $state,
+            "zip" => $zip,
+            "created" => $created
+        );
+
+        $account_info = json_encode($account_info);
         
         // set cookie variable with user account info
-        setcookie("customer_account_info", $customer_id, time() + 3600);
-        return_json_success("Login successful.");
+        setcookie("customer_account_info", $account_info, time() + 3600, '/');
+
+        $success_html = <<<HTML
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <h3>Welcome to The Booth, $first_name!</h3>
+                        Redirecting to main page...
+                    </div>
+                </div>
+            </div>
+        HTML;
+
+        return_json_success($success_html);
     }
     catch (Exception $e) {
         // This will catch PHP exceptions and return as JSON

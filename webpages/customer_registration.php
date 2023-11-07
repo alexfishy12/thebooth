@@ -15,39 +15,38 @@
 <body>
   <!-- Navigation-->
     <div id="navbar-container"><?php include("../sharedcode/nav.php"); ?></div>
-
-    <div class="container px-4 px-lg-5 mt-5">
-        <div class="text-center">
-            <div id="sign_up_form">
-                <b>Sign-Up for</b> <i>The Booth!</i>
-                <form id="customer_create_account" enctype="multipart/form-data"> <!-- requires php file -->
-                    <label for="first_name">First Name:</label><br>
-                    <input type="text" id="first_name" name="first_name" required><br><br>
-                    <label for="last_name">Last Name:</label><br>
-                    <input type="text" id="last_name" name="last_name" required><br><br>
-                    <label for="email">Email:</label><br>
-                    <input type="email" id="email" name="email" required><br><br>
-                    <label for="address">Street Address:</label><br>
-                    <input type="text" id="address" name="address" required><br><br>
-                    <label for="city">City:</label><br>
-                    <input type="text" id="city" name="city" required><br><br>
-                    <label for="state">State:</label><br>
-                    <input type="text" id="state" name="state" required><br><br>
-                    <label for="zip">Zip Code:</label><br>
-                    <input type="text" id="zip" name="zip" required><br><br>
-                    <label for="password">Password:</label><br>
-                    <input type="password" id="password" name="password" required><br><br>
-                    <p>Upload an image of yourself:</p>
-                    <input type="file" id="image" name="image" acccept="image/*"><br><br>
-                    <input type="submit" value="Create Account">
-                </form>
-                <div id="error_message"></div>
-            </div>
-            <div id="success_message"></div>
+    <br>
+    <div class="text-center">
+        <h2>Sign-Up for <i>The Booth!</i></b></h2><br>
+        <div id="sign_up_form">
+            <form id="customer_create_account" enctype="multipart/form-data"> <!-- requires php file -->
+                <label for="first_name">First Name:</label><br>
+                <input type="text" id="first_name" name="first_name" required><br><br>
+                <label for="last_name">Last Name:</label><br>
+                <input type="text" id="last_name" name="last_name" required><br><br>
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email" required><br><br>
+                <label for="address">Street Address:</label><br>
+                <input type="text" id="address" name="address" required><br><br>
+                <label for="city">City:</label><br>
+                <input type="text" id="city" name="city" required><br><br>
+                <label for="state">State:</label><br>
+                <input type="text" id="state" name="state" required><br><br>
+                <label for="zip">Zip Code:</label><br>
+                <input type="text" id="zip" name="zip" required><br><br>
+                <label for="password">Password:</label><br>
+                <input type="password" id="password" name="password" required><br><br>
+                <p>Upload an image of yourself:</p>
+                <input type="file" id="image" name="image" acccept="image/*" required><br><br>
+                <input type="submit" value="Create Account">
+            </form>
+            <div id="error_message"></div>
         </div>
+        <div id="success_message"></div>
     </div>
+
     <!-- Scripts -->
     <script src="../sharedcode/scripts.js"></script>
-    <script src="account.js"></script>
+    <script src="../_js/account.js"></script>
 </body>
 </html>

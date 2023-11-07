@@ -228,7 +228,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col">
-                        <h1>Welcome to The Booth, $first_name!</h1>
+                        <h3>Welcome to The Booth, $first_name!</h3>
                         Redirecting to main page...
                     </div>
                 </div>

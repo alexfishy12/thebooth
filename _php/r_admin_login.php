@@ -21,7 +21,7 @@
     
         // check if username exists
         // Prepare statement
-        $stmt = $con->prepare("SELECT id FROM store_template.Customer where email = ?");
+        $stmt = $con->prepare("SELECT id FROM the_booth.Admin where email = ?");
     
         // bind parameters
         $stmt->bind_param('s', $email);
@@ -34,12 +34,12 @@
     
         // if username doesn't exist, kill program
         if (mysqli_num_rows($result) < 1) {
-            return_json_failure("Email is not linked to any account with us.");
+            return_json_failure("An account does not exist with this email address.");
         }
     
         // check if password is correct
         // Prepare statement
-        $stmt = $con->prepare("SELECT id, first_name, last_name, email, address, city, state, zip, created FROM store_template.Customer where email = ? and password = SHA2(?, 256)");
+        $stmt = $con->prepare("SELECT id, email, first_name, last_name, created FROM the_booth.Admin where email = ? and password = SHA2(?, 256)");
     
         // bind parameters
         $stmt->bind_param('ss', $email, $password);
@@ -55,40 +55,34 @@
             return_json_failure("Incorrect password.");
         }
         
-        $account_info = mysqli_fetch_array($result);
-        $id = $account_info['id'];
-        $first_name = $account_info['first_name'];
-        $last_name = $account_info['last_name'];
-        $email = $account_info['email'];
-        $address = $account_info['address'];
-        $city = $account_info['city'];
-        $state = $account_info['state'];
-        $zip = $account_info['zip'];
-        $created = $account_info['created'];
+        $row = mysqli_fetch_array($result);
+        $id = $row['id'];
+        $email = $row['email'];
+        $first_name = $row['first_name'];
+        $last_name = $row['last_name'];
+        $created = $row['created'];
 
+        // set cookie variable with user account info
+
+        // LOGIN TO ACCOUNT ////////////////////////////////////////////////////////////////////
         $account_info = array(
             "id" => $id,
+            "email" => $email,
             "first_name" => $first_name,
             "last_name" => $last_name,
-            "email" => $email,
-            "address" => $address,
-            "city" => $city,
-            "state" => $state,
-            "zip" => $zip,
             "created" => $created
         );
 
         $account_info = json_encode($account_info);
         
         // set cookie variable with user account info
-        setcookie("customer_account_info", $account_info, time() + 3600, '/');
+        setcookie("admin_account_info", $account_info, time() + 3600, '/');
 
         $success_html = <<<HTML
             <div class="container">
                 <div class="row">
                     <div class="col">
-                        <h1>Welcome to The Booth, $first_name!</h1>
-                        Redirecting to main page...
+                        <h3>Hello, $first_name! Logging in as admin...</h3>
                     </div>
                 </div>
             </div>
