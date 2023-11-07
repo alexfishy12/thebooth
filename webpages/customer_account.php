@@ -19,7 +19,7 @@
     <!--Header -->
     <div class="container px-4 px-lg-5 mt-5">
         <div class="text-center"> 
-            <h1 class="display-4 fw-bolder">Store Order History</h1>
+            <h1 class="display-4 fw-bolder">Customer Account Info</h1>
         </div>
     </div>
     <!-- Table -->

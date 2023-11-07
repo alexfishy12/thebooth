@@ -14,7 +14,17 @@
 
 <body>
     <!-- Navigation-->
-    <div id="navbar-container"><?php include("../sharedcode/nav.php"); ?></div>
+    <div id="navbar-container">
+        <?php 
+            if (isset($_COOKIE['manager_account_info'])) {
+                include("../sharedcode/manager_nav.php");
+            }
+            else
+            {
+                include("../sharedcode/nav.php"); 
+            }
+        ?>
+    </div>
 
   <!-- display AI image -->
   <section class="py-5">

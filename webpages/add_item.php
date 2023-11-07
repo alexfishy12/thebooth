@@ -11,10 +11,18 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-
+<?php 
+    if (!isset($_COOKIE['manager_account_info'])) {
+        header("Location: main_page.php");
+    }
+?>
 <body>
     <!-- Navigation-->
-    <div id="navbar-container"><?php include("../sharedcode/nav.php"); ?></div>
+    <div id="navbar-container">
+        <?php 
+            include("../sharedcode/manager_nav.php");
+        ?>
+    </div>
     <h1>Add New Product</h1>
     <!-- display order status, date, total, user, status -->
     <form action=""> <!-- requires php file to save info to database-->

@@ -42,25 +42,29 @@
     <br>
     <div class="text-center">
         <h2><b>Edit Employee Account</b></h2><br>
-        <h4>Editing employee #<?php echo $id ?></h4><br>
-        <div id="edit_employee_form">
-            <form id="admin_create_manager_account" enctype="multipart/form-data"> <!-- requires php file -->
-                <?php 
-                    echo <<<HTML
-                        <input type="hidden" value=$id name="id">
-                        <label for="first_name">First Name:</label><br>
-                        <input type="text" id="first_name" name="first_name" required value=$first_name><br><br>
-                        <label for="last_name">Last Name:</label><br>
-                        <input type="text" id="last_name" name="last_name" required value=$last_name><br><br>
-                        <label for="email">Email:</label><br>
-                        <input type="email" id="email" name="email" required value=$email><br><br>
-                        <label for="password">Password:</label><br>
-                        <input type="password" id="password" name="password" required><br><br>
-                        <input class="btn btn-success" type="submit" value="Save Changes">
-                    HTML;
-                ?>
-            </form>
-            <div id="error_message"></div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <h4>Editing employee #<?php echo $id ?></h4><br>
+                    <div class="form-control" id="edit_employee_form">
+                        <form id="admin_create_manager_account" enctype="multipart/form-data"> <!-- requires php file -->
+                            <?php 
+                                echo <<<HTML
+                                    <input class="form-control" type="hidden" value=$id name="id">
+                                    <label class="form-label" for="first_name">First Name:</label><br>
+                                    <input class="form-control" type="text" id="first_name" name="first_name" required value=$first_name><br><br>
+                                    <label class="form-label" for="last_name">Last Name:</label><br>
+                                    <input class="form-control" type="text" id="last_name" name="last_name" required value=$last_name><br><br>
+                                    <label class="form-label" for="email">Email:</label><br>
+                                    <input class="form-control" type="email" id="email" name="email" required value=$email><br><br>
+                                    <input class="form-control btn btn-success" type="submit" value="Save Changes">
+                                HTML;
+                            ?>
+                        </form>
+                        <div id="error_message"></div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div id="success_message"></div>
     </div>

@@ -19,15 +19,26 @@
     <br>
     <div class="text-center">
         <h2><b>Manager Login</b></h2><br>
-        <div id="sign_in_form">
-            <form id="manager_login">
-                <label for="email">Email:</label><br>
-                <input type="email" id="email" name="email"><br>
-                <label for="password">Password:</label><br>
-                <input type="password" id="password" name="password"><br><br>
-                <input type="submit" value="Submit">
-            </form>
-            <span class="error" id="error_message"></span><br>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="form-control" id="sign_in_form">
+                        <form id="manager_login">
+                            <label class="form-label" for="email">Email:</label><br>
+                            <input class="form-control" type="email" id="email" name="email"><br>
+                            <label class="form-label" for="password">Password:</label><br>
+                            <input class="form-control" type="password" id="password" name="password"><br><br>
+                            <input class="form-control btn btn-success" type="submit" value="Login">
+                        </form>
+                        <br>
+                        <span class="error" id="error_message"></span><br>
+                        <br>
+                        <a href="customer_login.php">Customer Login</a>
+                        <a href="admin_login.php">Admin Login</a>
+                        <br>
+                    </div>
+                </div>
+            </div>
         </div>
         <div id="success_message"></div>
     </div>

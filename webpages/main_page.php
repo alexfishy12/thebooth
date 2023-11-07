@@ -14,7 +14,17 @@
 
 <body>
     <!-- Navigation-->
-    <div id="navbar-container"><?php include("../sharedcode/nav.php"); ?></div>
+    <div id="navbar-container">
+        <?php 
+            if (isset($_COOKIE['manager_account_info'])) {
+                include("../sharedcode/manager_nav.php");
+            }
+            else
+            {
+                include("../sharedcode/nav.php"); 
+            }
+        ?>
+    </div>
     <!-- Header-->
     <header class="bg-dark py-5">
         <div class="container px-4 px-lg-5 my-5">
