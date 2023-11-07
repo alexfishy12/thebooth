@@ -10,7 +10,7 @@
                 $account_info = json_decode($_COOKIE['admin_account_info'], true);
                 $first_name = $account_info['first_name'];
                 $last_name = $account_info['last_name'];
-                echo $first_name . " " . $last_name;
+                echo "ADMIN ACCOUNT: " . $first_name . " " . $last_name;
             ?>
             <i class="bi bi-person-circle"></i>
             <a href="logout.php" class="btn btn-danger" style="margin-left:10px;">

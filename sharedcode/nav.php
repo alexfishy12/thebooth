@@ -29,17 +29,16 @@
                     HTML;
                 }
             ?>
-            
-            <form class="d-flex">
-                <button class="btn btn-outline-dark" type="submit">
-                    <i class="bi-cart-fill me-1"></i>
-                    Cart
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                </button>
-            </form>
             <?php 
             if (isset($_COOKIE['customer_account_info'])) {
                 echo <<<HTML
+                    <form class="d-flex">
+                        <button class="btn btn-outline-dark" type="submit">
+                            <i class="bi-cart-fill me-1"></i>
+                            Cart
+                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                        </button>
+                    </form>
                     <a href="logout.php" class="btn btn-danger" style="margin-left:10px;">
                         Logout
                         <i class="bi bi-box-arrow-right"></i>
