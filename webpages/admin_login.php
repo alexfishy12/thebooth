@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>The Booth</title>
+    <title>The Booth - Admin Login</title>
     <!-- Set charset and viewport -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -16,11 +16,11 @@
 <body>
     <!-- Navigation-->
     <div id="navbar-container"><?php include("../sharedcode/nav.php"); ?></div>
-    <br>   
+    <br>
     <div class="text-center">
-        <h2><b>Customer Login</b></h2><br>
+        <h2><b>Admin Login</b></h2><br>
         <div id="sign_in_form">
-            <form id="customer_login"> <!-- requires php file to save info to database-->
+            <form id="admin_login">
                 <label for="email">Email:</label><br>
                 <input type="email" id="email" name="email"><br>
                 <label for="password">Password:</label><br>
@@ -28,13 +28,9 @@
                 <input type="submit" value="Submit">
             </form>
             <span class="error" id="error_message"></span><br>
-            Don't have an account? <a href="customer_registration.php">Sign up here!</a>
-            <br><br>
-            <a href="manager_login.php">Staff Login</a>
-            <a href="admin_login.php">Admin Login</a>
         </div>
         <div id="success_message"></div>
-    </div>  
+    </div>
     <!-- Scripts -->
     <script src="../sharedcode/scripts.js"></script>
     <script src="../_js/account.js"></script>
