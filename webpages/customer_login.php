@@ -15,7 +15,7 @@
 
 <body>
     <!-- Navigation-->
-    <div id="navbar-container"></div>
+    <div id="navbar-container"><?php include("../sharedcode/nav.php"); ?></div>
     
     <div class="container px-4 px-lg-5 mt-5">
         <div class="text-center">
@@ -29,7 +29,7 @@
                     <input type="submit" value="Submit">
                 </form>
                 <span class="error" id="error_message"></span><br>
-                Don't have an account? <a href="customer_registration.html">Sign up here!</a>
+                Don't have an account? <a href="customer_registration.php">Sign up here!</a>
             </div>
             <div id="success_message"></div>
         </div>
