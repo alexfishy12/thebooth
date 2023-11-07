@@ -32,7 +32,7 @@ $(document).ready(function() {
             // handle response from server
             switch (response.status) {
                 case "success":
-                    $("#sign_up_form").hide();
+                    $("#create_manager_account_form").hide();
                     $("#success_message").html(response.data);
                     setTimeout(function() {
                         window.location.replace("admin.php");

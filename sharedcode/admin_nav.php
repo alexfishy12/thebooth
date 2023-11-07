@@ -13,7 +13,7 @@
                 echo $first_name . " " . $last_name;
             ?>
             <i class="bi bi-person-circle"></i>
-            <a href="logout.php" class="text-decoration-none" style="margin-left:10px;">
+            <a href="logout.php" class="btn btn-danger" style="margin-left:10px;">
                 Logout
                 <i class="bi bi-box-arrow-right"></i>
             </a>

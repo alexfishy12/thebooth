@@ -28,14 +28,6 @@
                         </a>
                     HTML;
                 }
-                else {
-                    echo <<<HTML
-                        <a href="customer_login.php" class="text-decoration-none" style="margin-right:10px;">
-                            Login
-                            <i class="bi bi-person-circle"></i>
-                        </a>
-                    HTML;
-                }
             ?>
             
             <form class="d-flex">
@@ -45,6 +37,25 @@
                     <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                 </button>
             </form>
+            <?php 
+            if (isset($_COOKIE['customer_account_info'])) {
+                echo <<<HTML
+                    <a href="logout.php" class="btn btn-danger" style="margin-left:10px;">
+                        Logout
+                        <i class="bi bi-box-arrow-right"></i>
+                    </a>
+                HTML;
+            }
+            else
+            {
+                echo <<<HTML
+                    <a href="customer_login.php" class="btn btn-primary" style="margin-left:10px;">
+                        Login
+                        <i class="bi bi-box-arrow-in-left"></i>
+                    </a>
+                HTML;
+            }
+            ?>
         </div>
     </div>
 </nav>

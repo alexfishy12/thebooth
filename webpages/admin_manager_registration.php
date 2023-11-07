@@ -23,19 +23,25 @@
     <br>
     <div class="text-center">
         <h2><b>Create Manager Account</b></h2><br>
-        <div id="sign_up_form">
-            <form id="admin_create_manager_account" enctype="multipart/form-data"> <!-- requires php file -->
-                <label for="first_name">First Name:</label><br>
-                <input type="text" id="first_name" name="first_name" required><br><br>
-                <label for="last_name">Last Name:</label><br>
-                <input type="text" id="last_name" name="last_name" required><br><br>
-                <label for="email">Email:</label><br>
-                <input type="email" id="email" name="email" required><br><br>
-                <label for="password">Password:</label><br>
-                <input type="password" id="password" name="password" required><br><br>
-                <input type="submit" value="Create Account">
-            </form>
-            <div id="error_message"></div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="form-control" id="create_manager_account_form">
+                        <form id="admin_create_manager_account" enctype="multipart/form-data"> <!-- requires php file -->
+                            <label class="form-label" for="first_name">First Name:</label><br>
+                            <input class="form-control" type="text" id="first_name" name="first_name" required><br><br>
+                            <label class="form-label" for="last_name">Last Name:</label><br>
+                            <input class="form-control" type="text" id="last_name" name="last_name" required><br><br>
+                            <label class="form-label"for="email">Email:</label><br>
+                            <input class="form-control" type="email" id="email" name="email" required><br><br>
+                            <label class="form-label" for="password">Password:</label><br>
+                            <input class="form-control" type="password" id="password" name="password" required><br><br>
+                            <input class="form-control btn btn-success" type="submit" value="Create Account">
+                        </form>
+                        <div id="error_message"></div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div id="success_message"></div>
     </div>
