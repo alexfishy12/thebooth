@@ -19,57 +19,100 @@
     <header class="bg-dark py-5">
         <div class="container px-4 px-lg-5 my-5">
             <div class="text-center text-white">
-                <h1 class="display-4 fw-bolder">Clothing Items for Sale</h1>
-                <p class="lead fw-normal text-white-50 mb-0">See how clothes fit on you with our virtual try-on booth!</p>
+                <h1 class="display-4 fw-bolder">The Booth Demonstation Site</h1>
+                <p class="lead fw-normal text-white-50 mb-0">Browse clothing and see how they look on you with our virtual try-on booth!</p>
             </div>
         </div>
     </header>
     <!-- Selection Buttons -->
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"> 
-            <button class="btn btn-outline-dark">Shirts</button>
-            <button class="btn btn-outline-dark">Jackets</button>
-            <button class="btn btn-outline-dark">Dresses</button>
-            <button class="btn btn-outline-dark">Pants</button>
+            <button class="btn btn-outline-dark" id="Shirt">Shirts</button>
+            <button class="btn btn-outline-dark" id="Jacket">Jackets</button>
+            <button class="btn btn-outline-dark" id="Dress">Dresses</button>
+            <button class="btn btn-outline-dark" id="Pants">Pants</button>
         </div>
     </div>
     <!-- Search Bar -->
     <div class="container px-4 px-lg-5 mt-5">
-        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"> 
-            <form action="/search" method="GET">
-                <input type="text" name="query" placeholder="Search...">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            <form action="/search" method="GET" style="display: flex;">
+                <input type="text" name="query" placeholder="Search..." style="flex: 1; margin-right: 10px;">
                 <button type="submit" class="btn btn-outline-dark">Search</button>
             </form>
         </div>
-    </div>
+    </div>    
     <!-- Items Section -->
     <section id="items" class="py-5">
         <div class="container px-4 px-lg-5 mt-5">
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Product image-->
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 id="prod_name" class="fw-bolder">Placeholder</h5>
-                                <!-- Product price-->
-                                <p id="prod_price">$40.00</p>
-                            </div>
-                        </div>
-                        <!-- Product action-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View Item</a></div>
-                        </div>
-                    </div>
-                </div>
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" id="items-row">
             </div>
         </div>
     </section>
     <!-- Scripts -->
     <script src="../sharedcode/scripts.js"></script>
-
+    <script>
+        var $products;
+        //Load Products on page load
+        $(document).ready(function() {
+            $.ajax({
+                url: '../_php/load_products.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $products = data;
+                    var $row = $('#items-row');
+                    $row.empty();
+                    data.forEach(function(product) {
+                        var productCard = `
+                            <div class="col-12 col-md-3 mb-5">
+                                <div class="card h-100">
+                                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                                    <div class="card-body p-4">
+                                        <div class="text-center">
+                                            <h5 class="fw-bolder">${product.name}</h5>
+                                            <p>$${product.price}</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View Item</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        $row.append(productCard);
+                    });
+                }
+            });
+        });
+        //Update Shown Items on section selection
+        $(".btn").click(function () {
+            var sortItem = $(this).attr("id");
+            let selectedProducts = $products.filter(product => product.category === sortItem);
+            var $row = $('#items-row');
+            $row.empty();
+            console.log(selectedProducts)
+            selectedProducts.forEach(function(product) {
+                console.log("Works");
+                var productCard = `
+                    <div class="col-12 col-md-3 mb-5">
+                        <div class="card h-100">
+                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <h5 class="fw-bolder">${product.name}</h5>
+                                    <p>$${product.price}</p>
+                                </div>
+                            </div>
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View Item</a></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                $row.append(productCard);
+            });
+        });
+    </script>
 </body>
 </html>

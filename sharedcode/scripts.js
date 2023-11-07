@@ -1,9 +1,7 @@
-//Load shared navbar into container
+//Load shared navbar into container, load login button
 $(document).ready(function () {
     $('#navbar-container').load('../sharedcode/nav.php');
 });
-
-//Login/Register Windows Pop-ups
 
 // Make an AJAX server request
 // method: GET or POST
