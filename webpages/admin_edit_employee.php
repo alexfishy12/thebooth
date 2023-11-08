@@ -60,7 +60,8 @@
                                     <input class="form-control btn btn-success" type="submit" value="Save Changes">
                                 HTML;
                             ?>
-                        </form>
+                        </form><br>
+                        <button class="btn btn-danger" id="delete_button" data-account-id="<?php echo $id; ?>">Delete Account</button>
                         <div id="error_message"></div>
                     </div>
                 </div>
@@ -72,5 +73,27 @@
     <!-- Scripts -->
     <script src="../sharedcode/scripts.js"></script>
     <script src="../_js/admin.js"></script>
+    <script>
+    $("#delete_button").click(function() {
+        var confirmDelete = confirm('Are you sure you want to delete this account? This action cannot be undone.');
+        if (confirmDelete) {
+            var accountId = $(this).data('account-id');
+            $.ajax({
+                url: '../_php/r_admin_delete_manager_account.php',
+                type: 'POST',
+                data: {id: accountId},
+                success: function(response) {
+                    $('#success_message').text('Account deleted successfully.');
+                    setTimeout(function() {
+                        window.location.replace("admin.php");
+                    }, 2000);
+                },
+                error: function() {
+                    $('#error_message').text('There was an error deleting the account.');
+                }
+            });
+        }
+    });
+    </script>
 </body>
 </html>
