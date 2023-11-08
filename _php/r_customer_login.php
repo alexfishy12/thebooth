@@ -88,7 +88,12 @@
                 <div class="row">
                     <div class="col">
                         <h3>Welcome to The Booth, $first_name!</h3>
-                        Redirecting to main page...
+                        <br>
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

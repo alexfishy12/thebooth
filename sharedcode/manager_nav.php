@@ -15,6 +15,13 @@
                         <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
                     </ul>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Manager Actions</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="manager_add_product.php">Add New Product</a></li>
+                        <li><a class="dropdown-item" href="manager_order_history.php">View Order History</a></li>
+                    </ul>
+                </li>
             </ul>
             <?php 
                 $account_info = json_decode($_COOKIE['manager_account_info'], true);

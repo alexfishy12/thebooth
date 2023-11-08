@@ -111,7 +111,12 @@
                 <div class="row">
                     <div class="col">
                         <h3>Manager Account for $first_name $last_name has been created!</h3>
-                        Redirecting to Account Management Page...
+                        <br>
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
