@@ -30,8 +30,8 @@
     }
 
     $id = $_GET['id'];
-    $first_name = $_GET['first_name'];
-    $last_name = $_GET['last_name'];
+    $emp_first_name = $_GET['first_name'];
+    $emp_last_name = $_GET['last_name'];
     $email = $_GET['email'];
     $type = $_GET['type'];
     $created = $_GET['created'];
@@ -47,20 +47,21 @@
                 <div class="col-md-6 col-lg-4">
                     <h4>Editing employee #<?php echo $id ?></h4><br>
                     <div class="form-control" id="edit_employee_form">
-                        <form id="admin_create_manager_account" enctype="multipart/form-data"> <!-- requires php file -->
+                        <form id="admin_update_employee_account" enctype="multipart/form-data"> <!-- requires php file -->
                             <?php 
                                 echo <<<HTML
                                     <input class="form-control" type="hidden" value=$id name="id">
                                     <label class="form-label" for="first_name">First Name:</label><br>
-                                    <input class="form-control" type="text" id="first_name" name="first_name" required value=$first_name><br><br>
+                                    <input class="form-control" type="text" id="first_name" name="first_name" required value=$emp_first_name><br><br>
                                     <label class="form-label" for="last_name">Last Name:</label><br>
-                                    <input class="form-control" type="text" id="last_name" name="last_name" required value=$last_name><br><br>
+                                    <input class="form-control" type="text" id="last_name" name="last_name" required value=$emp_last_name><br><br>
                                     <label class="form-label" for="email">Email:</label><br>
                                     <input class="form-control" type="email" id="email" name="email" required value=$email><br><br>
                                     <input class="form-control btn btn-success" type="submit" value="Save Changes">
                                 HTML;
                             ?>
-                        </form>
+                        </form><br>
+                        <button class="btn btn-danger" id="delete_button" data-account-id="<?php echo $id; ?>">Delete Account</button>
                         <div id="error_message"></div>
                     </div>
                 </div>
@@ -72,5 +73,27 @@
     <!-- Scripts -->
     <script src="../sharedcode/scripts.js"></script>
     <script src="../_js/admin.js"></script>
+    <script>
+    $("#delete_button").click(function() {
+        var confirmDelete = confirm('Are you sure you want to delete this account? This action cannot be undone.');
+        if (confirmDelete) {
+            var accountId = $(this).data('account-id');
+            $.ajax({
+                url: '../_php/r_admin_delete_manager_account.php',
+                type: 'POST',
+                data: {id: accountId},
+                success: function(response) {
+                    $('#success_message').text('Account deleted successfully.');
+                    setTimeout(function() {
+                        window.location.replace("admin.php");
+                    }, 2000);
+                },
+                error: function() {
+                    $('#error_message').text('There was an error deleting the account.');
+                }
+            });
+        }
+    });
+    </script>
 </body>
 </html>
