@@ -46,10 +46,10 @@
     <!-- Search Bar -->
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            <form action="/search" method="GET" style="display: flex;">
-                <input type="text" name="query" placeholder="Search..." style="flex: 1; margin-right: 10px;">
-                <button type="submit" class="btn btn-outline-dark">Search</button>
-            </form>
+            <div style="display: flex;">
+                <input type="text" id="searchBox" placeholder="Search..." style="flex: 1; margin-right: 10px;">
+                <button class="btn btn-outline-dark" id="Search">Search</button>
+            </div>
         </div>
     </div>    
     <!-- Items Section -->
@@ -63,6 +63,7 @@
     <script src="../sharedcode/scripts.js"></script>
     <script>
         var $products;
+        var $row = $('#items-row');
         //Load Products on page load
         $(document).ready(function() {
             $.ajax({
@@ -71,7 +72,6 @@
                 dataType: 'json',
                 success: function(data) {
                     $products = data;
-                    var $row = $('#items-row');
                     $row.empty();
                     data.forEach(function(product) {
                         var productCard = `
@@ -96,14 +96,41 @@
             });
         });
         //Update Shown Items on section selection
-        $(".btn").click(function () {
+        $("#Shirt, #Jacket, #Pants, #Dress").click(function () {
             var sortItem = $(this).attr("id");
-            let selectedProducts = $products.filter(product => product.category === sortItem);
-            var $row = $('#items-row');
+            var selectedProducts = $products.filter(product => product.category === sortItem);
             $row.empty();
-            console.log(selectedProducts)
             selectedProducts.forEach(function(product) {
-                console.log("Works");
+                var productCard = `
+                    <div class="col-12 col-md-3 mb-5">
+                        <div class="card h-100">
+                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <h5 class="fw-bolder">${product.name}</h5>
+                                    <p>$${product.price}</p>
+                                </div>
+                            </div>
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View Item</a></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                $row.append(productCard);
+            });
+        });
+        //Search Bar Function
+        $("#Search").click(function() { 
+            var text = document.getElementById('searchBox').value.trim().toLowerCase();
+            var splitText = text.split(' ');
+            var filteredProducts = $products.filter(product => {
+                return splitText.every(selection => 
+                    product.color.toLowerCase().includes(selection) || product.category.toLowerCase().includes(selection)
+                );
+            });
+            $row.empty();
+            filteredProducts.forEach(function(product) {
                 var productCard = `
                     <div class="col-12 col-md-3 mb-5">
                         <div class="card h-100">

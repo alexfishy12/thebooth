@@ -30,8 +30,8 @@
     }
 
     $id = $_GET['id'];
-    $first_name = $_GET['first_name'];
-    $last_name = $_GET['last_name'];
+    $emp_first_name = $_GET['first_name'];
+    $emp_last_name = $_GET['last_name'];
     $email = $_GET['email'];
     $type = $_GET['type'];
     $created = $_GET['created'];
@@ -47,14 +47,14 @@
                 <div class="col-md-6 col-lg-4">
                     <h4>Editing employee #<?php echo $id ?></h4><br>
                     <div class="form-control" id="edit_employee_form">
-                        <form id="admin_create_manager_account" enctype="multipart/form-data"> <!-- requires php file -->
+                        <form id="admin_update_employee_account" enctype="multipart/form-data"> <!-- requires php file -->
                             <?php 
                                 echo <<<HTML
                                     <input class="form-control" type="hidden" value=$id name="id">
                                     <label class="form-label" for="first_name">First Name:</label><br>
-                                    <input class="form-control" type="text" id="first_name" name="first_name" required value=$first_name><br><br>
+                                    <input class="form-control" type="text" id="first_name" name="first_name" required value=$emp_first_name><br><br>
                                     <label class="form-label" for="last_name">Last Name:</label><br>
-                                    <input class="form-control" type="text" id="last_name" name="last_name" required value=$last_name><br><br>
+                                    <input class="form-control" type="text" id="last_name" name="last_name" required value=$emp_last_name><br><br>
                                     <label class="form-label" for="email">Email:</label><br>
                                     <input class="form-control" type="email" id="email" name="email" required value=$email><br><br>
                                     <input class="form-control btn btn-success" type="submit" value="Save Changes">
