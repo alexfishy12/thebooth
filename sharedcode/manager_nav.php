@@ -23,21 +23,27 @@
                     </ul>
                 </li>
             </ul>
-            <?php 
-                $account_info = json_decode($_COOKIE['manager_account_info'], true);
-                $first_name = $account_info['first_name'];
-                $last_name = $account_info['last_name'];
-                echo <<<HTML
-                    <div class="text-decoration-none" style="margin-right:10px;">
-                        MANAGER ACCOUNT: $first_name $last_name
-                        <i class="bi bi-person-circle"></i>
-                    </div>
-                HTML;
-            ?>
-            <a href="logout.php" class="btn btn-danger" style="margin-left:10px;">
-                Logout
-                <i class="bi bi-box-arrow-right"></i>
-            </a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                <?php 
+                    $account_info = json_decode($_COOKIE['manager_account_info'], true);
+                    $first_name = $account_info['first_name'];
+                    $last_name = $account_info['last_name'];
+                    echo <<<HTML
+                        <div class="navbar-text">
+                            MANAGER ACCOUNT: $first_name $last_name
+                            <i class="bi bi-person-circle"></i>
+                        </div>
+                    HTML;
+                ?>
+                </li>
+                <li class="nav-item">
+                    <a href="logout.php" class="btn btn-danger">
+                        Logout
+                        <i class="bi bi-box-arrow-right"></i>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>

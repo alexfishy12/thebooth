@@ -2,3 +2,28 @@
     color: red;
     font-weight: bold;
 }
+
+.carousel-item {
+    height: 200px; /* Set the height you want */
+    object-fit: contain; /* Optional: for <img> inside carousel-item to cover the area */
+  }
+  
+/* If you're using <img> elements inside the carousel item, this ensures they cover the entire area */
+.carousel-item img {
+    height: 100%;
+    object-fit: contain; /* This makes the image cover the area, similar to background-size: cover; */
+}
+
+.carousel-control-prev, .carousel-control-next {
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    color: white;
+}
+
+/* Optionally, you might want to ensure that the entire button area is clickable and has the background, not just the icon: */
+.carousel-control-prev span, .carousel-control-next span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
