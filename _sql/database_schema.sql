@@ -21,8 +21,8 @@ insert into Admin (email, first_name, last_name, password, created) values
 
 create database store_template;
 use store_template;
-drop table if exists Product_Size, Product_Color, Product_Category, Product_Image, Category, Color, Size, Product;
-drop table if exists Customer_Image, Review,  Product_Order, `Order`, Customer;
+drop table if exists Product_Order, Product_Size, Product_Color, Product_Category, Product_Image, Category, Color, Size, Product;
+drop table if exists Customer_Image, Review, `Order`, Customer;
 
 create table Category (
     id int primary key not null auto_increment,
@@ -46,17 +46,22 @@ create table Product (
     id int primary key not null auto_increment,
     name varchar(255) not null,
     description varchar(255) not null,
+    category_id int not null,
     price decimal(10,2) not null,
-    quantity int not null
+    quantity int not null,
+    created datetime,
+    foreign key (category_id) references Category(id)
 );
 
 
 create table Product_Image (
     id int primary key not null auto_increment,
     product_id int not null,
+    color_id int not null,
     image_og blob not null,
     image_pp blob not null,
-    foreign key (product_id) references Product(id)
+    foreign key (product_id) references Product(id),
+    foreign key (color_id) references Color(id)
 );
 
 
@@ -75,15 +80,6 @@ create table Product_Color (
     color_id int not null,
     foreign key (product_id) references Product(id),
     foreign key (color_id) references Color(id)
-);
-
-
-create table Product_Category (
-    id int primary key not null auto_increment,
-    product_id int not null,
-    category_id int not null,
-    foreign key (product_id) references Product(id),
-    foreign key (category_id) references Category(id)
 );
 
 create table Employee (
@@ -128,12 +124,15 @@ create table `Order` (
 
 
 create table Product_Order (
-    id int primary key not null auto_increment,
     order_id int not null,
     product_id int not null,
+    color_id int not null,
+    size_id int not null,
     quantity int not null,
     foreign key (order_id) references `Order`(id),
-    foreign key (product_id) references Product(id)
+    foreign key (product_id) references Product(id),
+    foreign key (color_id) references Color(id),
+    foreign key (size_id) references Size(id)
 );
 
 
