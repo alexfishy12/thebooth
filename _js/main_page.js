@@ -1,8 +1,10 @@
 // global variables
 var $products;
+var $row;
 
 $(document).ready(function() {
     console.log("JS connected.")
+    $row = $('#items-row');
     
     var path = window.location.pathname.split('/');
     var fileName = path.pop() || path.pop(); // handle potential trailing slash
@@ -36,22 +38,7 @@ $(document).ready(function() {
         var selectedProducts = $products.filter(product => product.category == sortItem.toLowerCase());
         $row.empty();
         selectedProducts.forEach(function(product) {
-            var productCard = `
-                <div class="col-12 col-md-3 mb-5">
-                    <div class="card h-100">
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <h5 class="fw-bolder">${product.name}</h5>
-                                <p>$${product.price}</p>
-                            </div>
-                        </div>
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View Item</a></div>
-                        </div>
-                    </div>
-                </div>
-            `;
+            var productCard = generate_product_card(product);
             $row.append(productCard);
         });
     });
@@ -74,7 +61,6 @@ $(document).ready(function() {
 
 function load_products(data) {
     $products = data;
-    var $row = $('#items-row');
         
     $row.empty();
     data.forEach(function(product) {
