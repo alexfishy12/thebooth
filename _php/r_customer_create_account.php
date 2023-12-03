@@ -177,29 +177,31 @@
         $created = $row['created'];
 
         // INSERT IMAGE INTO DATABASE ///////////////////////////////////////////////////////////
-        $image_og_blob = file_get_contents($image['tmp_name']);
+
+        $target_dir = "../__uploads/customer_images/";
         
+        $target_file_og = $target_dir . $customer_id . "_og_" . basename($image["name"]);
+
+        // Attempt to move the OG file
+        if (!move_uploaded_file($image["tmp_name"], $target_file_og)) {
+            return_json_error("Sorry, there was an error uploading your file.");
+        }
+
         // get preprocessed image for ai model
-        
         //$image_pp_blob = get_preprocessed_image($image_og_blob);
+
+        $target_file_pp = $target_dir . $customer_id . "_pp_" . basename($image["name"]);
+        
+        copy($target_file_og, $target_file_pp);
+        
+        // THE CODE RIGHT ABOVE SHOULD BE CHANGED ONCE THE AI MODEL IS IMPLEMENTED
 
         $query = "INSERT INTO store_template.Customer_Image (customer_id, image_og, image_pp) VALUES (?, ?, ?);";
         $stmt = $con->prepare($query);
         
         // These nulls are placeholders for the actual BLOBs
         $null = null;
-        $stmt->bind_param("ibb", $customer_id, $null, $null);
-
-        // Send the first image in packets (image_og_blob)
-        $packet_size = 8192; // Size of each packet. Adjust as needed.
-        for ($i = 0; $i < strlen($image_og_blob); $i += $packet_size) {
-            $stmt->send_long_data(1, substr($image_og_blob, $i, $packet_size));
-        }
-
-        // Send the second image in packets (image_pp_blob)
-        for ($i = 0; $i < strlen($image_og_blob); $i += $packet_size) {
-            $stmt->send_long_data(2, substr($image_og_blob, $i, $packet_size));
-        }
+        $stmt->bind_param("iss", $customer_id, $target_file_og, $target_file_pp);
 
         // Execute the prepared statement
         if (!$stmt->execute()) {

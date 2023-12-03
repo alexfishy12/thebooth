@@ -17,6 +17,7 @@ $(document).ready(function() {
                     load_products(response.data);
                     break;
                 case "failure":
+                    console.log("Failure\n" + response.data)
                     $("#error_message").html("<span class='error'>" + response.data + "</span>");
                     break;
                 case "error":
@@ -60,6 +61,7 @@ $(document).ready(function() {
 })
 
 function load_products(data) {
+    console.log(data);
     $products = data;
         
     $row.empty();
@@ -70,10 +72,22 @@ function load_products(data) {
 }
 
 function generate_product_card(product) {
+    var thumbnail = "";
+    if (product.images[0] != null) {
+        if (product.images[0].image_og != null) {
+            thumbnail = product.images[0].image_og;
+        }
+        else {
+            thumbnail = get_placeholder_img(product);
+        }
+    }
+    else {
+        thumbnail = get_placeholder_img(product);
+    }
     return `
         <div class="col-12 col-md-3 mb-5">
             <div class="card h-100">
-                <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                <img class="card-img-top" src="${thumbnail}" alt="..." />
                 <div class="card-body p-4">
                     <div class="text-center">
                         <h5 class="fw-bolder">${product.name}</h5>
@@ -81,9 +95,24 @@ function generate_product_card(product) {
                     </div>
                 </div>
                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="view_product.php?">View Item</a></div>
+                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="view_product.php?product_id=${product.id}">View Item</a></div>
                 </div>
             </div>
         </div>
     `;
+}
+
+function get_placeholder_img(product) {
+    switch(product.category) {
+        case "shirt":
+            return "../_assets/tshirt_placeholder.png";
+        case "jacket":
+            return "../_assets/jacket_placeholder.png";
+        case "pants":
+            return "../_assets/pants_placeholder.png";
+        case "dress":
+            return "../_assets/dress_placeholder.png";
+        default:
+            return "../_assets/tshirt_placeholder.png";
+    }
 }
