@@ -3,6 +3,16 @@
     font-weight: bold;
 }
 
+.success {
+    color: green;
+    font-weight: bold;
+}
+
+.note {
+    color: gray;
+    font-style: italic;
+}
+
 .carousel-item {
     height: 200px; /* Set the height you want */
     object-fit: contain; /* Optional: for <img> inside carousel-item to cover the area */

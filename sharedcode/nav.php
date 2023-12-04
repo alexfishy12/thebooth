@@ -22,6 +22,15 @@
                         $account_info = json_decode($_COOKIE['customer_account_info'], true);
                         $first_name = $account_info['first_name'];
                         $last_name = $account_info['last_name'];
+
+                        if (isset($_COOKIE['cart'])) {
+                            $cart = json_decode($_COOKIE['cart']);
+                            $cart_count = count($cart);
+                        }
+                        else {
+                            $cart_count = 0;
+                        }
+
                         echo <<<HTML
                             <a href="customer_account.php" class="nav-link text-decoration-none text-primary">
                                 $first_name $last_name
@@ -31,7 +40,7 @@
                                 <a class="btn btn-outline-dark" href="customer_cart.php">
                                     <i class="bi-cart-fill me-1"></i>
                                     Cart
-                                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                                    <span class="badge bg-dark text-white ms-1 rounded-pill" id='cart_count'>$cart_count</span>
                                 </a>
                             </form>
                             <form class="d-flex">
