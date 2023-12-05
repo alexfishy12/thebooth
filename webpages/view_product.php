@@ -295,7 +295,9 @@
                 $result = $stmt->get_result();
 
                 // Fetch all the reviews as an associative array
-                
+                $num_reviews = mysqli_num_rows($result);
+
+                echo "This item has $num_reviews reviews.";
 
                 // Iterate over the reviews and display them
                 while ($review = mysqli_fetch_array($result)) {
