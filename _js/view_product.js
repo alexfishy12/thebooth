@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    get_reviews();
     // check if form is submitted
     $("form#add_to_cart").submit(function(e) {
         e.preventDefault();
@@ -14,7 +15,7 @@ $(document).ready(function() {
 
             //call add_to_cart from cart.js
             add_to_cart(product);
-            $("$in_cart_message").html("Item added to cart.")
+            $("in_cart_message").html("Item added to cart.")
         }
     });
 
@@ -30,6 +31,9 @@ $(document).ready(function() {
                 switch (response.status) {
                     case "success":
                         $("#review_success_message").html(response.data);
+                        setTimeout(function() {
+                            window.location.replace("view_product.php?product_id=" + $("input#review_product_id").val());
+                        }, 2000);
                         break;
                     case "failure":
                         $("#review_error_message").html(response.data);
@@ -47,7 +51,7 @@ $(document).ready(function() {
     });
 
 
-    // check if user clicks on a star
+    // check if user clicks on a review star rating
     $("span[id^='star_rating_']").click(function() {
         update_product_rating(this);
     });
@@ -76,7 +80,7 @@ function add_to_cart_form_is_valid() {
 }
 
 function leave_review_form_is_valid() {
-    if ($("textarea#review_content").val() == "" || $("textarea#review_content").val() == null) {
+    if ($("textarea#review_text").val() == "" || $("textarea#review_text").val() == null) {
         $("#review_error_message").html("Please enter a description for your review.");
         return false;
     }

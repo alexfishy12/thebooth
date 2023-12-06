@@ -8,6 +8,7 @@
     <!-- Load bootstrap icons and stylesheet -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="../sharedcode/styles.css" rel="stylesheet" />
+    <link href="../sharedcode/custom_styles.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -56,11 +57,17 @@
     <section id="items" class="py-5">
         <div class="container px-4 px-lg-5 mt-5">
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" id="items-row">
+            <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
     <!-- Scripts -->
     <script src="../sharedcode/scripts.js"></script>
+    <script src="../_js/reviews.js"></script>
     <script src="../_js/main_page.js"></script>
 </body>
 </html>

@@ -17,6 +17,23 @@
     cursor: pointer;
 }
 
+.thumbnail {
+    height: 200px;
+    object-fit: contain;
+
+}
+
+.profile-picture-sm {
+    width: 40px;
+    height: 40px;
+    border-radius: 35%;
+}
+
+.scrollable-feed {
+    height: 500px; /* Adjust the height as needed */
+    overflow-y: auto;
+}
+
 .carousel-item {
     height: 200px; /* Set the height you want */
     object-fit: contain; /* Optional: for <img> inside carousel-item to cover the area */
