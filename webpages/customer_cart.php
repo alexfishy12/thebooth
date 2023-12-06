@@ -25,36 +25,8 @@
     <br>
     <div class="text-center">
         <h2><b>Your cart</b></h2><br>
-        <div id="cart" style="margin-left:15%; margin-right:15%;">
-            <?php 
-                if (isset($_COOKIE['cart'])) {
-                    $cart = json_decode($_COOKIE['cart'], true);
-                    foreach ($cart as $item) {
+        <div id="cart_list" style="margin-left:15%; margin-right:15%;">
 
-                        $product_data = get_product($item['id']);
-
-                        $item['name'] = $product_data['name'];
-                        $item['description'] = $product_data['description'];
-                        $item['price'] = $product_data['price'];
-                        //$item['image'] = $product_data['image'];
-
-                        echo '<div class="card mb-3">
-                                <div class="row g-0">
-                                    <div class="col-md-4">
-                                        <img src="' . $item['image'] . '" class="img-fluid rounded-start" alt="' . $item['name'] . '">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">' . $item['name'] . '</h5>
-                                            <p class="card-text">' . $item['description'] . '</p>
-                                            <p class="card-text"><small class="text-muted">' . $item['price'] . '</small></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>';
-                    }
-                }
-            ?>
         </div>
         Display cart contents here</div><br>
         <button class="btn btn-outline-dark" id="clear_cart">
@@ -66,5 +38,6 @@
     <!-- Scripts -->
     <script src="../sharedcode/scripts.js"></script>
     <script src="../_js/cart.js"></script>
+    <script src="../_js/cart_page.js"></script>
 </body>
 </html>

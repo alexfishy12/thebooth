@@ -2,7 +2,6 @@
     define("IN_CODE", 1);
     include("dbconfig.php");
     include("functions.php");
-    include("f_get_product.php");
 
     try {
         // check for get parameters
@@ -12,6 +11,8 @@
         }
 
         $product_id = $_POST['product_id'];
+        
+        $con = mysqli_connect($dbserver, $dbuser, $dbpass, $dbname) or return_json_error("<br>Cannot connect to DB.\n");
 
         // general product info query
         $query = "SELECT p.id, p.name, p.description, c.category, p.price, p.quantity, p.created 

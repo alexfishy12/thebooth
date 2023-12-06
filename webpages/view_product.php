@@ -264,14 +264,16 @@
                             </button>
                             <?php
                                 $in_cart_message = "";
-                                if (isset($_COOKIE['cart'])) {
-                                    $cart = json_decode($_COOKIE['cart']);
-                                    // check if product is already in cart
-                                    
-                                    foreach ($cart as $item) {
-                                        if ($item->id == $product_data['id']) {
-                                            $in_cart_message = "This product is in your cart.";
-                                            break;
+                                if (isset($_COOKIE['customer_account_info'])) {
+                                    $account_info = json_decode($_COOKIE['customer_account_info'], true);
+                                    if (isset($account_info['cart'])) {
+                                        $cart = $account_info['cart'];
+                                        // check if product is already in cart
+                                        foreach ($cart as $item) {
+                                            if ($item['id'] == $product_data['id']) {
+                                                $in_cart_message = "This product is in your cart.";
+                                                break;
+                                            }
                                         }
                                     }
                                 }
