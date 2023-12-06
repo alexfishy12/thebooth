@@ -37,3 +37,7 @@ function server_request(url, method, data = null) {
         })
     });
 }
+
+function roundToTenth(num) {
+    return Math.round(num * 10) / 10;
+}

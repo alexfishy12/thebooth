@@ -200,9 +200,29 @@
             <div class="row gx-4 gx-lg-5 align-items-center" id="product_section">
                 <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="<?php echo $product_data['images'][0]['image_og']; ?>" alt="<?php $product_data['name']; ?>" /></div>
                 <div class="col-md-6">
+                    <input type="hidden" id="product_id_reference" value="<?php echo $product_data['id']; ?>"></input>
                     <div class="small mb-1">ID: <?php echo $product_data['id']; ?></div>
-                    <div class="small mb-1">Category: <?php echo $product_data['category']; ?></div>
+                    <div class="small mb-1 note"><?php echo $product_data['category']; ?></div>
                     <h1 class="display-5 fw-bolder"><?php echo $product_data['name']; ?></h1>
+                    <div class="fs-5 mb-5">
+                        <div>
+                            <div class="col text-right">
+                                <div class="row">
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-2 note" id="product_average_rating">
+                                            
+                                        </div>
+                                        <div class="me-3" id="product_average_stars">
+                                            
+                                        </div>
+                                        <div class="note" id="product_review_count">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="fs-5 mb-5">
                         <span><?php echo $product_data['price']; ?></span>
                     </div>
@@ -233,8 +253,11 @@
                                 </select>
                             </div>
                         </div><br>
-                        <div class="d-flex">
-                            <input class="form-control text-center me-3" id="product_quantity" type="number" value="1" max="<?php echo $product_data['quantity']; ?>" style="max-width: 4rem" />
+                        <div class="d-flex align-items-center">
+                            <div class="input-group" style="width: fit-content;">
+                                <div class="input-group-text">Quantity</div>
+                                <input class="form-control text-center me-3" id="product_quantity" type="number" value="1" max="<?php echo $product_data['quantity']; ?>" style="max-width: 4rem" />
+                            </div>
                             <button type="submit" class="btn btn-outline-dark flex-shrink-0 me-3" form="add_to_cart">
                                 <i class="bi-cart-fill me-1"></i>
                                 Add to cart
@@ -269,200 +292,81 @@
     <section class="py-5">
         <div class="container px-4 px-lg-5">
             <h2 class="fw-bolder mb-4">Reviews and Ratings</h2>
-            <!-- Review feed -->
-            <div class="row gx-4 gx-lg-5">
-            <?php
-
-                // Assuming $product_id contains the page's product id
-                // Assuming you have a database connection established
-
-                // Prepare the SQL query
-                $query = "SELECT * FROM store_template.Review WHERE product_id = ?";
-
-                // Prepare the statement
-                $stmt = $con->prepare($query);
-
-                if(!$stmt) {
-                    die("Error preparing the statement.\n" . $con->error . "\n");
-                }
-
-                // Bind the product_id parameter
-                $stmt->bind_param('i', $product_data['id']);
-
-                // Execute the query
-                $stmt->execute();
-
-                $result = $stmt->get_result();
-
-                // Fetch all the reviews as an associative array
-                
-
-                // Iterate over the reviews and display them
-                while ($review = mysqli_fetch_array($result)) {
-                    echo '<div class="col-md-6 mb-4">';
-                    echo '<div class="card h-100">';
-                    echo '<div class="card-body">';
-                    echo '<h5 class="card-title">' . $review['title'] . '</h5>';
-                    echo '<p class="card-text">' . $review['content'] . '</p>';
-                    echo '</div>';
-                    echo '<div class="card-footer">';
-                    echo '<div class="d-flex justify-content-between align-items-center">';
-                    echo '<div class="rating">';
-                    echo '<span class="star"></span>';
-                    echo '<span class="star"></span>';
-                    echo '<span class="star"></span>';
-                    echo '<span class="star"></span>';
-                    echo '<span class="star"></span>';
-                    echo '</div>';
-                    echo '<small class="text-muted">' . $review['author'] . '</small>';
-                    echo '</div>';
-                    echo '</div>';
-                    echo '</div>';
-                    echo '</div>';
-                }
-
-                mysqli_close($con);
-            ?>
-            </div>
             <!-- Review form -->
             <div class="row gx-4 gx-lg-5 mt-4">
                 <div class="col-md-6">
-                    <h4 class="mb-3">Leave a Review</h4>
+                    <h4 class="mb-3">Leave your own review</h4>
                     <form id="leave_review">
                         <div class="mb-3">
-                            <label for="reviewTitle" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="reviewTitle" name="reviewTitle" required>
+                            <textarea class="form-control" id="review_text" name="review_text" rows="4" required></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="reviewContent" class="form-label">Content</label>
-                            <textarea class="form-control" id="reviewContent" name="reviewContent" rows="4" required></textarea>
+                            <label for="star_rating" class="form-label">Rating</label>
+                            <div id="star_rating">
+                                <span class="bi-star clickable" id="star_rating_1"></span>
+                                <span class="bi-star clickable" id="star_rating_2"></span>
+                                <span class="bi-star clickable" id="star_rating_3"></span>
+                                <span class="bi-star clickable" id="star_rating_4"></span>
+                                <span class="bi-star clickable" id="star_rating_5"></span>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="reviewRating" class="form-label">Rating</label>
-                            <select class="form-select" id="reviewRating" name="reviewRating" required>
-                                <option value="" selected disabled>Select rating</option>
-                                <option value="1">1 star</option>
-                                <option value="2">2 stars</option>
-                                <option value="3">3 stars</option>
-                                <option value="4">4 stars</option>
-                                <option value="5">5 stars</option>
-                            </select>
-                        </div>
+                        <input type=hidden id="review_product_id" name="product_id" value="<?php echo $product_data['id']; ?>"></input>
+                        <input type=hidden id="review_rating" name="rating" value="0"></input>
                         <button type="submit" class="btn btn-primary">Submit Review</button>
+                        <br><br>
+                        <div class="error" id="review_error_message"></div>
+                        <div class="" id="review_success_message">
+                        </div>
                     </form>
+                </div>
+                <div class="col-md-6 ">
+                    <div class="d-flex mb-2">
+                        <div class="row w-100 align-items-center">
+                            <div class="d-flex col align-items-center">
+                                <h4 class="mb-3">Customer Reviews</h4>
+                            </div>
+                            <div class="col text-right">
+                                <div class="row">
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-2 note ms-auto" id="reviews_average_rating">
+                                            
+                                        </div>
+                                        <div id="reviews_average_stars">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="d-flex align-items-center">
+                                        <div class="ms-auto note" id="reviews_total_count">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row scrollable-feed" id="review_feed">
+                            <!-- Review feed -->
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
     <!-- Related items section-->
     <section class="py-5 bg-light">
-        <div class="container px-4 px-lg-5 mt-5">
-            <h2 class="fw-bolder mb-4">Related products</h2>
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Product image-->
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">Fancy Product</h5>
-                                <!-- Product price-->
-                                $40.00 - $80.00
-                            </div>
-                        </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Sale badge-->
-                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                        <!-- Product image-->
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">Special Item</h5>
-                                <!-- Product reviews-->
-                                <div class="d-flex justify-content-center small text-warning mb-2">
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                </div>
-                                <!-- Product price-->
-                                <span class="text-muted text-decoration-line-through">$20.00</span>
-                                $18.00
-                            </div>
-                        </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Sale badge-->
-                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                        <!-- Product image-->
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">Sale Item</h5>
-                                <!-- Product price-->
-                                <span class="text-muted text-decoration-line-through">$50.00</span>
-                                $25.00
-                            </div>
-                        </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Product image-->
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">Popular Item</h5>
-                                <!-- Product reviews-->
-                                <div class="d-flex justify-content-center small text-warning mb-2">
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                </div>
-                                <!-- Product price-->
-                                $40.00
-                            </div>
-                        </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
     </section>
     <!-- Scripts -->
     <script src="../sharedcode/scripts.js"></script>
     <script src="../_js/cart.js"></script>
+    <script src="../_js/reviews.js"></script>
     <script src="../_js/view_product.js"></script>
 </body>
 </html>

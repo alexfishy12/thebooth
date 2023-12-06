@@ -32,18 +32,18 @@
                         }
 
                         echo <<<HTML
-                            <a href="customer_account.php" class="nav-link text-decoration-none text-primary">
+                            <a href="customer_account.php" class="nav-link text-decoration-none text-primary me-3 mb-1">
                                 $first_name $last_name
                                 <i class="bi bi-person-circle"></i>
                             </a>
-                            <form class="d-flex">
+                            <form class="d-flex me-3 mb-1">
                                 <a class="btn btn-outline-dark" href="customer_cart.php">
                                     <i class="bi-cart-fill me-1"></i>
                                     Cart
                                     <span class="badge bg-dark text-white ms-1 rounded-pill" id='cart_count'>$cart_count</span>
                                 </a>
                             </form>
-                            <form class="d-flex">
+                            <form class="d-flex mb-1">
                                 <a href="logout.php" class="btn btn-danger">
                                     Logout
                                     <i class="bi bi-box-arrow-right"></i>

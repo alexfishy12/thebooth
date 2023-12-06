@@ -107,6 +107,17 @@
                         }
                     }
                 }
+
+                // product average rating query 
+                $query = "SELECT AVG(rating) AS avg_rating FROM store_template.Review WHERE product_id = ?;";
+                $stmt = $con->prepare($query);
+                $stmt->bind_param('i', $product_id);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $row = mysqli_fetch_array($result);
+                $product_data["avg_rating"] = $row['avg_rating'];
+
+
                 $product_data["images"] = $image_array;
     
                 // done building out product data, push to array
