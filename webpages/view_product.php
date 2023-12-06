@@ -277,7 +277,7 @@
                 // Assuming you have a database connection established
 
                 // Prepare the SQL query
-                $query = "SELECT * FROM store_template.Review WHERE product_id = ?";
+                $query = "SELECT id, customer_id, rating, review, date FROM store_template.Review WHERE product_id = ?";
 
                 // Prepare the statement
                 $stmt = $con->prepare($query);
@@ -301,26 +301,29 @@
 
                 // Iterate over the reviews and display them
                 while ($review = mysqli_fetch_array($result)) {
-                    echo '<div class="col-md-6 mb-4">';
-                    echo '<div class="card h-100">';
-                    echo '<div class="card-body">';
-                    echo '<h5 class="card-title">' . $review['title'] . '</h5>';
-                    echo '<p class="card-text">' . $review['content'] . '</p>';
-                    echo '</div>';
-                    echo '<div class="card-footer">';
-                    echo '<div class="d-flex justify-content-between align-items-center">';
-                    echo '<div class="rating">';
-                    echo '<span class="star"></span>';
-                    echo '<span class="star"></span>';
-                    echo '<span class="star"></span>';
-                    echo '<span class="star"></span>';
-                    echo '<span class="star"></span>';
-                    echo '</div>';
-                    echo '<small class="text-muted">' . $review['author'] . '</small>';
-                    echo '</div>';
-                    echo '</div>';
-                    echo '</div>';
-                    echo '</div>';
+                    $review_text = $review['review'];
+                    $stars = "";
+                    for ($i = 0; $i < $review['rating']; $i++) {
+                        $stars .= "<span class='bi-star-fill text-warning'></span>";
+                    }
+
+                    echo <<<HTML
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <p class="card-text">$review_text</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="rating">
+                                        $stars
+                                    </div>
+                                    <small class="text-muted"></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    HTML;
                 }
 
                 mysqli_close($con);
@@ -329,27 +332,23 @@
             <!-- Review form -->
             <div class="row gx-4 gx-lg-5 mt-4">
                 <div class="col-md-6">
-                    <h4 class="mb-3">Leave a Review</h4>
+                    <h4 class="mb-3">Leave your own review</h4>
                     <form id="leave_review">
                         <div class="mb-3">
-                            <label for="reviewTitle" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="reviewTitle" name="reviewTitle" required>
+                            <textarea class="form-control" id="review_content" name="review_content" rows="4" required></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="reviewContent" class="form-label">Content</label>
-                            <textarea class="form-control" id="reviewContent" name="reviewContent" rows="4" required></textarea>
+                            <label for="star_rating" class="form-label">Rating</label>
+                            <div id="star_rating">
+                                <span class="bi-star clickable" id="star_rating_1"></span>
+                                <span class="bi-star clickable" id="star_rating_2"></span>
+                                <span class="bi-star clickable" id="star_rating_3"></span>
+                                <span class="bi-star clickable" id="star_rating_4"></span>
+                                <span class="bi-star clickable" id="star_rating_5"></span>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="reviewRating" class="form-label">Rating</label>
-                            <select class="form-select" id="reviewRating" name="reviewRating" required>
-                                <option value="" selected disabled>Select rating</option>
-                                <option value="1">1 star</option>
-                                <option value="2">2 stars</option>
-                                <option value="3">3 stars</option>
-                                <option value="4">4 stars</option>
-                                <option value="5">5 stars</option>
-                            </select>
-                        </div>
+                        <input type=hidden id="review_product_id" name="product_id" value="<?php echo $product_data['id']; ?>"></input>
+                        <input type=hidden id="review_rating" name="rating" value="0"></input>
                         <button type="submit" class="btn btn-primary">Submit Review</button>
                     </form>
                 </div>

@@ -13,6 +13,10 @@
     font-style: italic;
 }
 
+.clickable {
+    cursor: pointer;
+}
+
 .carousel-item {
     height: 200px; /* Set the height you want */
     object-fit: contain; /* Optional: for <img> inside carousel-item to cover the area */
