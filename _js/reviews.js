@@ -64,6 +64,9 @@ function generate_review_card(review) {
     if (review.profile_picture == null) {
         review.profile_picture = "../_assets/placeholder_profile_picture.jpg";
     }
+    else {
+        review.profile_picture = "../__uploads/customer_images/" + review.customer_id + "/" + review.profile_picture;
+    }
 
     let date = review.date.split(/[- :]/);
     date[1]--;

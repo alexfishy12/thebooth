@@ -75,7 +75,7 @@ function generate_product_card(product) {
     var thumbnail = "";
     if (product.images[0] != null) {
         if (product.images[0].image_og != null) {
-            thumbnail = product.images[0].image_og;
+            thumbnail = "../__uploads/product_images/" + product.id + "/" + product.images[0].image_og;
         }
         else {
             thumbnail = get_placeholder_img(product);
