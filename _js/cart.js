@@ -26,17 +26,8 @@ function get_cart() {
     return [];
 }
 
-function clear_cart() {
+function empty_cart() {
     update_cart_cookie([]);
-}
-
-function remove_from_cart(product_id) {
-    var cart = get_cart();
-    var index = cart.findIndex(product => product.id == product_id);
-    if (index > -1) {
-        cart.splice(index, 1);
-    }
-    update_cart_cookie(cart);
 }
 
 function update_cart_product_quantity(product_id, quantity) {
@@ -82,17 +73,6 @@ function generate_cart_item(cart_item) {
 
             console.log(cardHtml); // or append cardHtml to the DOM
         });
-}
-
-function getCookie(name) {
-    var cookieArr = document.cookie.split(';');
-    for (var i = 0; i < cookieArr.length; i++) {
-        var cookiePair = cookieArr[i].split('=');
-        if (name === cookiePair[0].trim()) {
-            return decodeURIComponent(cookiePair[1]);
-        }
-    }
-    return null;
 }
 
 function get_product(id) {

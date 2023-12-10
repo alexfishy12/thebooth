@@ -15,7 +15,7 @@ $(document).ready(function() {
 
             //call add_to_cart from cart.js
             add_to_cart(product);
-            $("in_cart_message").html("Item added to cart.")
+            $("#in_cart_message").html("Item added to cart.")
         }
     });
 

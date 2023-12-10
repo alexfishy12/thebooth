@@ -8,6 +8,7 @@
     <!-- Load bootstrap icons and stylesheet -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="../sharedcode/styles.css" rel="stylesheet" />
+    <link href="../sharedcode/custom_styles.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -23,15 +24,17 @@
     <!-- Navigation-->
     <div id="navbar-container"><?php include("../sharedcode/nav.php"); ?></div>
     <br>
-    <div class="text-center" style="margin-left:15%; margin-right:15%;">
-        <h2><b>Your cart</b></h2><br>
+    <div class="text-center" style="margin-left:15%; margin-right:15%;padding-bottom:5%;">
+        <h2 id="section_title"><b>Your cart</b></h2><br>
         
         <div id="cart_list">
             Display cart contents here
         </div>
-        <h2 id="cart_subtotal"></h2>
+        <div class="text-end me-3">
+            <h3 id="cart_subtotal"></h3>
+        </div>
         <br>
-        <button class="btn btn-danger" id="button_clear_cart">
+        <button class="btn btn-danger" id="button_empty_cart" onclick="empty_cart();window.location.reload()">
             Empty your cart
             <i class="bi bi-cart" style="margin-left:5px"></i>
         </button>

@@ -142,117 +142,135 @@
         // INSERT PRODUCT INTO DATABASE //////////////////////////////////////////////////////
 
         // 1) Insert product into Product table.
-        // Prepare statement
-        $query = "INSERT INTO store_template.Product (name, description, category_id, price, quantity, created) VALUES (?, ?, ?, ?, ?, NOW());";
-        $stmt = $con->prepare($query);
-        if (!$stmt) {
-            return_json_error("Insert failed (prepared statement failed): (" . $con->errno . ") " . $con->error);
-        }
+        // Prepare statement\
         
-        $stmt->bind_param('ssidi', $name, $description, $category_id, $price, $quantity);
-        
-        
-        if (!$stmt->execute()) {
-            return_json_error("Insert failed (Execute failed): (" . $stmt->errno . ") " . $stmt->error);
-        }
-        
-        if ($stmt->affected_rows == 0) {
-            return_json_error("Insert into Product table failed, 0 affected rows.");
-        }
+        try {
+            $con->begin_transaction();
 
-         // 2) Insert product sizes, colors, and images into Product_Size, Product_Color, and Product_Image tables
-
-        // get product id
-        $product_id = $con->insert_id;
-
-        // insert product sizes
-        $query = "INSERT INTO store_template.Product_Size (product_id, size_id) VALUES ";
-        for ($i = 0; $i < count($sizes); $i++) {
-            $query = $query . "($product_id, $sizes[$i])";
-            if ($i < count($sizes) - 1) {
-                $query = $query . ", ";
-            }
-        }
-        $query = $query . ";";
-        $result = mysqli_query($con, $query);
-
-        if(!$result) {
-            return_json_error("Insert into Product_Size Query failed: " . mysqli_error($con));
-            die();
-        }
-
-        // insert product colors
-        $query = "INSERT INTO store_template.Product_Color (product_id, color_id) VALUES ";
-        for ($i = 0; $i < count($colors); $i++) {
-            $query = $query . "($product_id, $colors[$i])";
-            if ($i < count($colors) - 1) {
-                $query = $query . ", ";
-            }
-        }
-
-        $query = $query . ";";
-        $result = mysqli_query($con, $query);
-
-        if(!$result) {
-            return_json_error("Insert into Product_Color Query failed: " . mysqli_error($con));
-            die();
-        }
-
-        // insert product images
-
-        $target_dir = "../__uploads/product_images/" . $product_id . "/";
-        if (!file_exists($target_dir)) {
-            mkdir($target_dir, 0705, true);
-        }
-
-        foreach ($_FILES['images']['name'] as $color_id => $file_name) {
-
-            // if file is empty, break
-            if ($_FILES['images']['error'][$color_id] == UPLOAD_ERR_NO_FILE) {
-                break;
-            }
-
-            //$image_og_blob = file_get_contents($_FILES['images']['tmp_name'][$color_id]);
-
-
-            $target_og_basename = $color_id . "_og_" . basename($_FILES['images']['name'][$color_id]);
-            $target_file_og = $target_dir . $target_og_basename;
-
-
-            // Attempt to move the OG file
-            if (!move_uploaded_file($_FILES['images']['tmp_name'][$color_id], $target_file_og)) {
-                return_json_error("Sorry, there was an error uploading your file.");
-            }
-
-            // get preprocessed image for ai model
-            //$image_pp_blob = get_preprocessed_image($image_og_blob);
-            $target_pp_basename = $color_id . "_pp_" . basename($_FILES['images']['name'][$color_id]);
-
-            $target_file_pp = $target_dir . $target_pp_basename;
-            
-            copy($target_file_og, $target_file_pp);
-                
-            // get preprocessed image for ai model
-            
-            //$image_pp_blob = get_preprocessed_image($image_og_blob);
-
-            $query = "INSERT INTO store_template.Product_Image (product_id, color_id, image_og, image_pp) VALUES (?, ?, ?, ?);";
+            $query = "INSERT INTO store_template.Product (name, description, category_id, price, quantity, created) VALUES (?, ?, ?, ?, ?, NOW());";
             $stmt = $con->prepare($query);
-
             if (!$stmt) {
-                return_json_error("Product_Image insert failed (prepared statement failed): (" . $con->errno . ") " . $con->error);
+                $con->rollback();
+                return_json_error("Insert failed (prepared statement failed): (" . $con->errno . ") " . $con->error);
             }
             
-            // These nulls are placeholders for the actual BLOBs
-            $null = null;
-            $stmt->bind_param("iiss", $product_id, $color_id, $target_og_basename, $target_pp_basename);
-
-            // Execute the prepared statement
+            $stmt->bind_param('ssidi', $name, $description, $category_id, $price, $quantity);
+            
+            
             if (!$stmt->execute()) {
-                return_json_error("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
+                $con->rollback();
+                return_json_error("Insert failed (Execute failed): (" . $stmt->errno . ") " . $stmt->error);
             }
             
+            if ($stmt->affected_rows == 0) {
+                $con->rollback();
+                return_json_error("Insert into Product table failed, 0 affected rows.");
+            }
+    
+             // 2) Insert product sizes, colors, and images into Product_Size, Product_Color, and Product_Image tables
+    
+            // get product id
+            $product_id = $con->insert_id;
+    
+            // insert product sizes
+            $query = "INSERT INTO store_template.Product_Size (product_id, size_id) VALUES ";
+            for ($i = 0; $i < count($sizes); $i++) {
+                $query = $query . "($product_id, $sizes[$i])";
+                if ($i < count($sizes) - 1) {
+                    $query = $query . ", ";
+                }
+            }
+            $query = $query . ";";
+            $result = mysqli_query($con, $query);
+    
+            if(!$result) {
+                $con->rollback();
+                return_json_error("Insert into Product_Size Query failed: " . mysqli_error($con));
+            }
+    
+            // insert product colors
+            $query = "INSERT INTO store_template.Product_Color (product_id, color_id) VALUES ";
+            for ($i = 0; $i < count($colors); $i++) {
+                $query = $query . "($product_id, $colors[$i])";
+                if ($i < count($colors) - 1) {
+                    $query = $query . ", ";
+                }
+            }
+    
+            $query = $query . ";";
+            $result = mysqli_query($con, $query);
+    
+            if(!$result) {
+                $con->rollback();
+                return_json_error("Insert into Product_Color Query failed: " . mysqli_error($con));
+            }
+    
+            // insert product images
+    
+            $target_dir = "../__uploads/product_images/" . $product_id . "/";
+            if (!file_exists($target_dir)) {
+                mkdir($target_dir, 0705, true);
+            }
+
+            foreach ($_FILES['images']['name'] as $color_id => $file_name) {
+    
+                // if file is empty, break
+                if ($_FILES['images']['error'][$color_id] == UPLOAD_ERR_NO_FILE) {
+                    break;
+                }
+    
+                //$image_og_blob = file_get_contents($_FILES['images']['tmp_name'][$color_id]);
+    
+    
+                $target_og_basename = $color_id . "_og_" . basename($_FILES['images']['name'][$color_id]);
+                $target_file_og = $target_dir . $target_og_basename;
+    
+    
+                // Attempt to move the OG file
+                if (!move_uploaded_file($_FILES['images']['tmp_name'][$color_id], $target_file_og)) {
+                    $con->rollback();
+                    return_json_error("Sorry, there was an error uploading your file.");
+                }
+    
+                // get preprocessed image for ai model
+                //$image_pp_blob = get_preprocessed_image($image_og_blob);
+                $target_pp_basename = $color_id . "_pp_" . basename($_FILES['images']['name'][$color_id]);
+    
+                $target_file_pp = $target_dir . $target_pp_basename;
+                
+                copy($target_file_og, $target_file_pp);
+                    
+                // get preprocessed image for ai model
+                
+                //$image_pp_blob = get_preprocessed_image($image_og_blob);
+    
+                $query = "INSERT INTO store_template.Product_Image (product_id, color_id, image_og, image_pp) VALUES (?, ?, ?, ?);";
+                $stmt = $con->prepare($query);
+    
+                if (!$stmt) {
+                    $con->rollback();
+                    return_json_error("Product_Image insert failed (prepared statement failed): (" . $con->errno . ") " . $con->error);
+                }
+                
+                // These nulls are placeholders for the actual BLOBs
+                $null = null;
+                $stmt->bind_param("iiss", $product_id, $color_id, $target_og_basename, $target_pp_basename);
+    
+                // Execute the prepared statement
+                if (!$stmt->execute()) {
+                    $con->rollback();
+                    return_json_error("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
+                }
+                
+            }
         }
+        catch (Exception $e) {
+            $con->rollback();
+            return_json_error('Caught exception: ' . $e->getMessage());
+        }
+
+        $con->commit();
+
 
         // SUCCESS //////////////////////////////////////////////////////
 
