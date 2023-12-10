@@ -198,32 +198,68 @@
             </div>
             <!-- Product section-->
             <div class="row gx-4 gx-lg-5 align-items-center" id="product_section">
-                <?php 
-                    if (count($product_data['images']) < 1 || $product_data['images'][0]['image_og'] == "") {
-                        // use placeholder img
-                        switch ($product_data['category']) {
-                            case "shirt":
-                                $img_src = "../_assets/tshirt_placeholder.png";
-                                break;
-                            case "pants":
-                                $img_src = "../_assets/pants_placeholder.png";
-                                break;
-                            case "dress":
-                                $img_src = "../_assets/dress_placeholder.png";
-                                break;
-                            case "jacket":
-                                $img_src = "../_assets/jacket_placeholder.png";
-                                break;
-                            default:
-                                $img_src = "../_assets/tshirt_placeholder.png";
-                                break;
-                        }
-                    }
-                    else {
-                        $img_src = "../__uploads/product_images/" . $product_data['id'] . "/" . $product_data['images'][0]['image_og'];
-                    }
-                ?>
-                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="<?php echo $img_src; ?>" alt="<?php echo $product_data['name']; ?>" /></div>
+                <!-- Product image-->
+                <div class="col-md-6">
+                    <div class="card-body">
+                        <div id="image-carousel" class="carousel slide">
+                            <div class="carousel-inner view-product-carousel" id="carousel-inner">
+                                <?php
+                                if (count($product_data['images']) > 0 && $product_data['images'][0]['image_og'] != "") {
+                                    $first = true;
+                                    foreach ($product_data['images'] as $image) {
+                                        if ($first) {
+                                            echo "<div class='carousel-item active' data-bs-interval='10000'>";
+                                            $first = false;
+                                        }
+                                        else {
+                                            echo "<div class='carousel-item' data-bs-interval='10000'>";
+                                        }
+                                        echo "<img src='../__uploads/product_images/" . $product_data['id'] . "/" . $image['image_og'] . "' alt='" . $product_data['name'] . "' />";
+                                        echo "</div>";
+                                    }
+                                }
+                                else {
+                                    // use placeholder img
+                                    switch ($product_data['category']) {
+                                        case "shirt":
+                                            $img_src = "../_assets/tshirt_placeholder.png";
+                                            break;
+                                        case "pants":
+                                            $img_src = "../_assets/pants_placeholder.png";
+                                            break;
+                                        case "dress":
+                                            $img_src = "../_assets/dress_placeholder.png";
+                                            break;
+                                        case "jacket":
+                                            $img_src = "../_assets/jacket_placeholder.png";
+                                            break;
+                                        default:
+                                            $img_src = "../_assets/tshirt_placeholder.png";
+                                            break;
+                                    }
+                                    echo "<div class='carousel-item active' data-bs-interval='10000'>";
+                                    echo "<img src='" . $img_src . "' alt='" . $product_data['name'] . "' />";
+                                    echo "</div>";
+                                }
+                                ?>
+                            </div>
+                            <?php 
+                                if (count($product_data['images']) > 1) {
+                                    echo <<<HTML
+                                        <button class="btn btn-outline-dark carousel-control-prev" type="button" data-bs-target="#image-carousel" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="btn btn-outline-dark carousel-control-next" type="button" data-bs-target="#image-carousel" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    HTML;
+                                }
+                            ?>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <input type="hidden" id="product_id_reference" value="<?php echo $product_data['id']; ?>"></input>
                     <div class="small mb-1">ID: <?php echo $product_data['id']; ?></div>

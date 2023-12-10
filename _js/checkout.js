@@ -6,27 +6,73 @@ $(document).ready(function() {
     if (!document.cookie.includes('customer_account_info=')) {
         return;
     }
-    
-    cart_buttons_disabled(true);
+
+    checkout_buttons_disabled(true);
     load_cart_list();
     update_cart_subtotal();
 
     // check if user clicks checkout button
-    $("button#button_checkout").click(function() {
-        window.location.href = "customer_checkout.php";
+    $("form#place_order").submit(function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        place_order(formData);
     });
 });
+
+function place_order(formData) {
+    //show loading spinner and hide checkout information
+    $("#checkout_information").hide();
+    $("#place_order_spinner").show();
+
+    server_request("../_php/r_customer_place_order.php", "POST", formData).then(function(response) {
+        // handle response from server
+        switch (response.status) {
+            case "success":
+                $("#place_order_spinner").hide();
+                $("#success_message").html(response.data);
+                empty_cart();
+                setTimeout(function() {
+                    window.location.replace("main_page.php");
+                }, 2000);
+                break;
+            case "failure":
+                show_error(response.data);
+                $("#place_order_spinner").hide();
+                break;
+            case "error":
+                show_error("Order failed! Internal server error.");
+                $("#place_order_spinner").hide();
+                console.error(response.data);
+                break;
+            default:
+                console.log(response)
+                break;
+        }
+    });
+}
+
+function show_error(error_message) {
+    $("#error_message").html(error_message);
+    $("#error_screen").show();
+}
+
+function close_error() {
+    $("#error_message").html("");
+    $("#error_screen").hide();
+    $("#checkout_information").show();
+}
 
 function load_cart_list() {
     var cart = get_cart();
 
     // check if cart is empty
     if (cart.length == 0) {
-        $("#cart_list").html("<div class='text-muted'>Your cart is empty</div>");
-        cart_buttons_disabled(true);
+        $("#checkout_list").html("<div class='text-muted'>Your cart is empty</div>");
+        window.location.replace('main_page.php')
+        checkout_buttons_disabled(true);
         return;
     }
-    cart_buttons_disabled(false);
+    checkout_buttons_disabled(false);
 
     cart_subtotal = 0;
     cart_item_count = 0;
@@ -34,7 +80,7 @@ function load_cart_list() {
 
     // get data from each cart item
 
-    $("#cart_list").html('');
+    $("#checkout_list").html('');
     cart.forEach(function(item) {
         var formData = new FormData();
         formData.append("product_id", item.id);
@@ -58,9 +104,10 @@ function load_cart_list() {
     });
 }
 
-function cart_buttons_disabled(bool) {
-    $("#button_checkout").prop("disabled", bool);
-    $("#button_empty_cart").prop("disabled", bool);
+function checkout_buttons_disabled(bool) {
+    console.log("Buttons disabled: " + bool)
+    $("#button_place_order").prop("disabled", bool);
+    $("#button_cancel_checkout").prop("disabled", bool);
 }
 
 function update_cart_subtotal() {
@@ -79,21 +126,21 @@ function update_cart_subtotal() {
         cart_subtotal += parseFloat(item.price * item.quantity);
         cart_item_count += parseInt(item.quantity);
     });
-    $("#cart_subtotal").html("Cart subtotal (" + cart_item_count + " items): <strong>$" + cart_subtotal + "</strong>");
+    $("#cart_subtotal").html("Checkout total (" + cart_item_count + " items): <strong>$" + cart_subtotal + "</strong>");
 }
 
 function parse_product_data(db_data, cart_data) {
-    console.group("Data for Product ID: " + db_data.id);
+    /*
     console.log("DB DATA")
     console.log(JSON.stringify(db_data))
     console.log("CART DATA")
     console.log(JSON.stringify(cart_data));
-
+    */
     // generate cart item
     var cart_item = generate_cart_item(db_data, cart_data);
 
     // add cart item to cart list
-    $("#cart_list").append(cart_item);
+    $("#checkout_list").append(cart_item);
 }
 
 function generate_cart_item(db_data, cart_data) {
@@ -131,17 +178,7 @@ function generate_cart_item(db_data, cart_data) {
                                     Color: ${color}<br>
                                 </small>
                                 </p>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <div class='input-group' style="width: fit-content;">
-                                            <span class='input-group-text'>Qty</span>
-                                            <input type='number' class='form-control' value='${cart_data.quantity}' min='1' max='99' onchange='update_cart_product_quantity(${db_data.id}, this.value)'>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <button type="button" class="btn btn-danger" onclick="remove_from_cart(${db_data.id})">Remove</button>
-                                    </div>
-                                </div>
+                                <p class="card-text">Quantity: ${cart_data.quantity}</p>
                             </div>
                             <div class="col-auto text-end">
                                 <div class="row">
@@ -153,20 +190,12 @@ function generate_cart_item(db_data, cart_data) {
                 </div>
             </div>
         </div>
-
-
+        <input type="hidden" name="product_id[]" value="${db_data.id}">
+        <input type="hidden" name="color_id[]" value="${cart_data.color}">
+        <input type="hidden" name="size_id[]" value="${cart_data.size}">
+        <input type="hidden" name="order_quantity[]" value="${cart_data.quantity}">
     `;
 
     // Return the HTML string
     return cardHtml;
-}
-
-function remove_from_cart(product_id) {
-    var cart = get_cart();
-    var index = cart.findIndex(product => product.id == product_id);
-    if (index > -1) {
-        cart.splice(index, 1);
-    }
-    update_cart_cookie(cart);
-    window.location.reload();
 }

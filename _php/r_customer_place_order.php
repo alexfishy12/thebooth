@@ -10,7 +10,8 @@
         return_json_failure("You are not logged in. Please log in to place an order.");
     }
 
-    $customer_id = json_decode($_COOKIE['customer_account_info'])['id'];
+    $account_info = json_decode($_COOKIE['customer_account_info'], true);
+    $customer_id = $account_info['id'];
 
     // CHECK THAT ALL FORM VARIABLES ARE SET //////////////////////////////////////////////////////
     $variable_not_set = false;
@@ -188,5 +189,15 @@
     $con->commit();
 
     // ORDER COMPLETE, PRINT OUT ORDER INFORMATION //////////////////////////////////////////////////////
-    return_json_success("Order successfully placed.");
+
+    $success_html = <<<HTML
+        <h3>Order placed successfully! Returning to home page...</h3><br>
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    HTML;
+
+    return_json_success($success_html);
 ?>
