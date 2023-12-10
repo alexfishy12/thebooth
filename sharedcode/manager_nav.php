@@ -30,7 +30,7 @@
                     $first_name = $account_info['first_name'];
                     $last_name = $account_info['last_name'];
                     echo <<<HTML
-                        <div class="navbar-text">
+                        <div class="navbar-text me-3 mb-1">
                             MANAGER ACCOUNT: $first_name $last_name
                             <i class="bi bi-person-circle"></i>
                         </div>

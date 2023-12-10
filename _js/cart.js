@@ -1,10 +1,6 @@
 function add_to_cart(product) {
-    // Get the product data from the form
-
-    console.log(product)
     // Retrieve or initialize the cart
     var cart = get_cart();
-    console.log(cart)
 
     // Add the product to the cart
     cart.push(product);
@@ -56,4 +52,57 @@ function update_cart_count() {
     var cart = get_cart();
     var count = cart.length;
     $("#cart_count").html(count);
+}
+
+function generate_cart_item(cart_item) {
+    var cart = get_cart();
+        var cart = JSON.parse(getCookie('cart'));
+        cart.forEach(function (item) {
+            var product_data = get_product(item.id);
+
+            item.name = product_data.name;
+            item.description = product_data.description;
+            item.price = product_data.price;
+            // item.image = product_data.image;
+
+            var cardHtml = `<div class="card mb-3">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="${item.image}" class="img-fluid rounded-start" alt="${item.name}">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${item.name}</h5>
+                                            <p class="card-text">${item.description}</p>
+                                            <p class="card-text"><small class="text-muted">${item.price}</small></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+
+            console.log(cardHtml); // or append cardHtml to the DOM
+        });
+}
+
+function getCookie(name) {
+    var cookieArr = document.cookie.split(';');
+    for (var i = 0; i < cookieArr.length; i++) {
+        var cookiePair = cookieArr[i].split('=');
+        if (name === cookiePair[0].trim()) {
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+    return null;
+}
+
+function get_product(id) {
+    // Implement your logic to fetch product data based on the given id
+    // and return the product data object
+    // Example:
+    return {
+        name: "Product Name",
+        description: "Product Description",
+        price: 10.99,
+        image: "product-image.jpg"
+    };
 }

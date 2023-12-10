@@ -23,14 +23,20 @@
     <!-- Navigation-->
     <div id="navbar-container"><?php include("../sharedcode/nav.php"); ?></div>
     <br>
-    <div class="text-center">
+    <div class="text-center" style="margin-left:15%; margin-right:15%;">
         <h2><b>Your cart</b></h2><br>
-        <div id="cart_list" style="margin-left:15%; margin-right:15%;">
-
+        
+        <div id="cart_list">
+            Display cart contents here
         </div>
-        Display cart contents here</div><br>
-        <button class="btn btn-outline-dark" id="clear_cart">
-            Clear cart
+        <h2 id="cart_subtotal"></h2>
+        <br>
+        <button class="btn btn-danger" id="button_clear_cart">
+            Empty your cart
+            <i class="bi bi-cart" style="margin-left:5px"></i>
+        </button>
+        <button class="btn btn-primary" id="button_checkout">
+            Checkout
             <i class="bi bi-cart" style="margin-left:5px"></i>
         </button>
     </div>
