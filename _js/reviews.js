@@ -5,7 +5,6 @@ function get_reviews() {
         // handle response from server
         switch (response.status) {
             case "success":
-                console.log(response.data);
                 parse_review_data(response.data)
                 break;
             case "failure":

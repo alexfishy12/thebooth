@@ -23,42 +23,20 @@
     <!-- Navigation-->
     <div id="navbar-container"><?php include("../sharedcode/nav.php"); ?></div>
     <br>
-    <div class="text-center">
+    <div class="text-center" style="margin-left:15%; margin-right:15%;">
         <h2><b>Your cart</b></h2><br>
-        <div id="cart" style="margin-left:15%; margin-right:15%;">
-            <?php 
-                if (isset($_COOKIE['cart'])) {
-                    $cart = json_decode($_COOKIE['cart'], true);
-                    foreach ($cart as $item) {
-
-                        $product_data = get_product($item['id']);
-
-                        $item['name'] = $product_data['name'];
-                        $item['description'] = $product_data['description'];
-                        $item['price'] = $product_data['price'];
-                        //$item['image'] = $product_data['image'];
-
-                        echo '<div class="card mb-3">
-                                <div class="row g-0">
-                                    <div class="col-md-4">
-                                        <img src="' . $item['image'] . '" class="img-fluid rounded-start" alt="' . $item['name'] . '">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">' . $item['name'] . '</h5>
-                                            <p class="card-text">' . $item['description'] . '</p>
-                                            <p class="card-text"><small class="text-muted">' . $item['price'] . '</small></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>';
-                    }
-                }
-            ?>
+        
+        <div id="cart_list">
+            Display cart contents here
         </div>
-        Display cart contents here</div><br>
-        <button class="btn btn-outline-dark" id="clear_cart">
-            Clear cart
+        <h2 id="cart_subtotal"></h2>
+        <br>
+        <button class="btn btn-danger" id="button_clear_cart">
+            Empty your cart
+            <i class="bi bi-cart" style="margin-left:5px"></i>
+        </button>
+        <button class="btn btn-primary" id="button_checkout">
+            Checkout
             <i class="bi bi-cart" style="margin-left:5px"></i>
         </button>
     </div>
@@ -66,5 +44,6 @@
     <!-- Scripts -->
     <script src="../sharedcode/scripts.js"></script>
     <script src="../_js/cart.js"></script>
+    <script src="../_js/cart_page.js"></script>
 </body>
 </html>

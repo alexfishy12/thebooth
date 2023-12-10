@@ -4,6 +4,11 @@
         throw new ErrorException($message, 0, $severity, $file, $line);
     });
 
+    /**
+     * This function is meant to respond to the client, including the success status and the data to send.
+     * 
+     * @return json The connection to the database.
+     */
     function return_json_success($data) {
         $response = array(
             "status" => "success",

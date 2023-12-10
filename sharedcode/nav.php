@@ -23,8 +23,8 @@
                         $first_name = $account_info['first_name'];
                         $last_name = $account_info['last_name'];
 
-                        if (isset($_COOKIE['cart'])) {
-                            $cart = json_decode($_COOKIE['cart']);
+                        if (isset($account_info['cart'])) {
+                            $cart = $account_info['cart'];
                             $cart_count = count($cart);
                         }
                         else {
