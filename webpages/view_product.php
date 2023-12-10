@@ -198,7 +198,32 @@
             </div>
             <!-- Product section-->
             <div class="row gx-4 gx-lg-5 align-items-center" id="product_section">
-                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="<?php echo $product_data['images'][0]['image_og']; ?>" alt="<?php $product_data['name']; ?>" /></div>
+                <?php 
+                    if (count($product_data['images']) < 1 || $product_data['images'][0]['image_og'] == "") {
+                        // use placeholder img
+                        switch ($product_data['category']) {
+                            case "shirt":
+                                $img_src = "../_assets/tshirt_placeholder.png";
+                                break;
+                            case "pants":
+                                $img_src = "../_assets/pants_placeholder.png";
+                                break;
+                            case "dress":
+                                $img_src = "../_assets/dress_placeholder.png";
+                                break;
+                            case "jacket":
+                                $img_src = "../_assets/jacket_placeholder.png";
+                                break;
+                            default:
+                                $img_src = "../_assets/tshirt_placeholder.png";
+                                break;
+                        }
+                    }
+                    else {
+                        $img_src = "../__uploads/product_images/" . $product_data['id'] . "/" . $product_data['images'][0]['image_og'];
+                    }
+                ?>
+                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="<?php echo $img_src; ?>" alt="<?php echo $product_data['name']; ?>" /></div>
                 <div class="col-md-6">
                     <input type="hidden" id="product_id_reference" value="<?php echo $product_data['id']; ?>"></input>
                     <div class="small mb-1">ID: <?php echo $product_data['id']; ?></div>

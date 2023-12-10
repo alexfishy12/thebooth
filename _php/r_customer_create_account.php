@@ -178,9 +178,14 @@
 
         // INSERT IMAGE INTO DATABASE ///////////////////////////////////////////////////////////
 
-        $target_dir = "../__uploads/customer_images/";
+        $target_dir = "../__uploads/customer_images/" . $customer_id . "/";
+        if (!file_exists($target_dir)) {
+            mkdir($target_dir, 0705, true);
+        }
+
+        $target_og_basename = "og_" . basename($image["name"]);
         
-        $target_file_og = $target_dir . $customer_id . "_og_" . basename($image["name"]);
+        $target_file_og = $target_dir . $target_og_basename;
 
         // Attempt to move the OG file
         if (!move_uploaded_file($image["tmp_name"], $target_file_og)) {
@@ -190,7 +195,9 @@
         // get preprocessed image for ai model
         //$image_pp_blob = get_preprocessed_image($image_og_blob);
 
-        $target_file_pp = $target_dir . $customer_id . "_pp_" . basename($image["name"]);
+        $target_pp_basename = "pp_" . basename($image["name"]);
+
+        $target_file_pp = $target_dir . $target_pp_basename;
         
         copy($target_file_og, $target_file_pp);
         
@@ -201,7 +208,7 @@
         
         // These nulls are placeholders for the actual BLOBs
         $null = null;
-        $stmt->bind_param("iss", $customer_id, $target_file_og, $target_file_pp);
+        $stmt->bind_param("iss", $customer_id, $target_og_basename, $target_pp_basename);
 
         // Execute the prepared statement
         if (!$stmt->execute()) {

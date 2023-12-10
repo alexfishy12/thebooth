@@ -21,6 +21,7 @@
         $query = "
             SELECT 
             r.id, 
+            c.id as customer_id,
             c.first_name, 
             c.last_name, 
             ci.image_og as profile_picture, 
