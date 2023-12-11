@@ -183,32 +183,26 @@
             mkdir($target_dir, 0705, true);
         }
 
-        $target_og_basename = "og_" . basename($image["name"]);
+        $target_basename = basename($image["name"]);
         
-        $target_file_og = $target_dir . $target_og_basename;
+        $target_file = $target_dir . $target_basename;
 
         // Attempt to move the OG file
-        if (!move_uploaded_file($image["tmp_name"], $target_file_og)) {
+        if (!move_uploaded_file($image["tmp_name"], $target_file)) {
             return_json_error("Sorry, there was an error uploading your file.");
         }
 
         // get preprocessed image for ai model
         //$image_pp_blob = get_preprocessed_image($image_og_blob);
-
-        $target_pp_basename = "pp_" . basename($image["name"]);
-
-        $target_file_pp = $target_dir . $target_pp_basename;
-        
-        copy($target_file_og, $target_file_pp);
         
         // THE CODE RIGHT ABOVE SHOULD BE CHANGED ONCE THE AI MODEL IS IMPLEMENTED
 
-        $query = "INSERT INTO store_template.Customer_Image (customer_id, image_og, image_pp) VALUES (?, ?, ?);";
+        $query = "INSERT INTO store_template.Customer_Image (customer_id, image_og) VALUES (?, ?);";
         $stmt = $con->prepare($query);
         
         // These nulls are placeholders for the actual BLOBs
         $null = null;
-        $stmt->bind_param("iss", $customer_id, $target_og_basename, $target_pp_basename);
+        $stmt->bind_param("is", $customer_id, $target_basename);
 
         // Execute the prepared statement
         if (!$stmt->execute()) {

@@ -177,7 +177,7 @@
                                             Uploaded images
                                         </div>
                                         <div class="card-body">
-                                            <div id="image-carousel" class="carousel slide">
+                                            <div id="image-carousel" class="carousel slide add-product-carousel">
                                                 <div class="carousel-inner" id="carousel-inner">
                                                     None (at least 1 is required)
                                                 </div>

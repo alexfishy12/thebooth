@@ -30,7 +30,7 @@
 }
 
 .scrollable-feed {
-    height: 500px; /* Adjust the height as needed */
+    height: 400px; /* Adjust the height as needed */
     overflow-y: auto;
 }
 
@@ -45,6 +45,15 @@ div.view-product-carousel div.carousel-item {
     object-fit: contain;
 }
 
+div.booth-carousel{
+    height: 300px;
+    object-fit: contain;
+}
+
+div.booth-carousel div.carousel-item img {
+    height:300px;
+}
+
 .cart-thumbnail {
     max-height: 200px;
     object-fit: contain;
@@ -56,9 +65,16 @@ div.view-product-carousel div.carousel-item {
     width: 100%;
     object-fit: contain;
 }
+
+div.add-product-carousel div.carousel-inner div.carousel-item img {
+    max-height:200px;
+    height:100%;
+    width:100%;
+    object-fit: contain;
+}
   
 /* If you're using <img> elements inside the carousel item, this ensures they cover the entire area */
-.carousel-item img {
+div.view-product-carousel .carousel-item img {
     width: 100%;
     max-height:600px;
     object-fit:contain; /* This makes the image cover the area, similar to background-size: cover; */

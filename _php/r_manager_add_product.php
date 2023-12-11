@@ -222,29 +222,20 @@
                 //$image_og_blob = file_get_contents($_FILES['images']['tmp_name'][$color_id]);
     
     
-                $target_og_basename = $color_id . "_og_" . basename($_FILES['images']['name'][$color_id]);
-                $target_file_og = $target_dir . $target_og_basename;
+                $target_basename = $color_id . basename($_FILES['images']['name'][$color_id]);
+                $target_file = $target_dir . $target_basename;
     
     
                 // Attempt to move the OG file
-                if (!move_uploaded_file($_FILES['images']['tmp_name'][$color_id], $target_file_og)) {
+                if (!move_uploaded_file($_FILES['images']['tmp_name'][$color_id], $target_file)) {
                     $con->rollback();
                     return_json_error("Sorry, there was an error uploading your file.");
                 }
     
                 // get preprocessed image for ai model
                 //$image_pp_blob = get_preprocessed_image($image_og_blob);
-                $target_pp_basename = $color_id . "_pp_" . basename($_FILES['images']['name'][$color_id]);
-    
-                $target_file_pp = $target_dir . $target_pp_basename;
-                
-                copy($target_file_og, $target_file_pp);
-                    
-                // get preprocessed image for ai model
-                
-                //$image_pp_blob = get_preprocessed_image($image_og_blob);
-    
-                $query = "INSERT INTO store_template.Product_Image (product_id, color_id, image_og, image_pp) VALUES (?, ?, ?, ?);";
+ 
+                $query = "INSERT INTO store_template.Product_Image (product_id, color_id, image_og) VALUES (?, ?, ?);";
                 $stmt = $con->prepare($query);
     
                 if (!$stmt) {
@@ -254,7 +245,7 @@
                 
                 // These nulls are placeholders for the actual BLOBs
                 $null = null;
-                $stmt->bind_param("iiss", $product_id, $color_id, $target_og_basename, $target_pp_basename);
+                $stmt->bind_param("iis", $product_id, $color_id, $target_basename);
     
                 // Execute the prepared statement
                 if (!$stmt->execute()) {
