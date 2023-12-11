@@ -424,12 +424,157 @@
     </section>
     <!-- Related items section-->
     <section class="py-5 bg-light">
-        
+        <div class="container px-4 px-lg-5 mt-2">
+            <h2 class="fw-bolder mb-4">Try on Booth</h2>
+            <?php 
+                // check if customer is logged in
+                if (!isset($_COOKIE['customer_account_info'])) {
+                    echo "Log in as a customer to use this feature!";
+                }
+                else {
+                    $form_hidden_inputs = "";
+                    $product_id = $product_data['id'];
+                    $product_carousel_html = "";
+
+                    // build product carousel
+                    if (count($product_data['images']) > 0 && $product_data['images'][0]['image_og'] != "") {
+                        $first = true;
+                        foreach ($product_data['images'] as $image) {
+                            if ($first) {
+                                $product_carousel_html .= "<div class='carousel-item active' data-bs-interval='10000'>";
+                                $first = false;
+                                // add hidden inputs for product images
+
+                                $form_hidden_inputs .= "<input type='hidden' name='product_image' value='" . $image['image_og']. "' id='input_product_image'>";
+                            }
+                            else {
+                                $product_carousel_html .= "<div class='carousel-item' data-bs-interval='10000'>";
+                            }
+                            $product_carousel_html .= "<img src='../__uploads/product_images/" . $product_data['id'] . "/" . $image['image_og'] . "' alt='" . $product_data['name'] . "' />";
+                            $product_carousel_html .= "</div>";
+
+                        }
+                    }
+                    $product_select_buttons_html = "";
+                    if (count($product_data['images']) > 1) {
+                        $product_select_buttons_html .= <<<HTML
+                            <button class="btn btn-outline-dark carousel-control-prev" type="button" data-bs-target="#product_image_carousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="btn btn-outline-dark carousel-control-next" type="button" data-bs-target="#product_image_carousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        HTML;
+                    }
+
+                    $account_info = json_decode($_COOKIE['customer_account_info'], true);
+                    $customer_id = $account_info['id'];
+
+                    $query = "SELECT * from Customer_Image where customer_id = ?";
+                    $stmt = $con->prepare($query);
+                    $stmt->bind_param('i', $customer_id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+
+                    // build customer carousel
+                    $first = true;
+                    $customer_carousel_html = "";
+                    while ($row = mysqli_fetch_array($result)) {
+                        if ($first) {
+                            $customer_carousel_html .= "<div class='carousel-item active' data-bs-interval='10000'>";
+                            $first = false;
+                            $form_hidden_inputs .= "<input type='hidden' name='customer_image' value='" . $row['image_og']. "' id='input_customer_image'>";
+                        }
+                        else {
+                            $customer_carousel_html .= "<div class='carousel-item' data-bs-interval='10000'>";
+                        }
+                        $customer_carousel_html .= "<img src='../__uploads/customer_images/" . $customer_id . "/" . $row['image_og'] . "' alt='Profile Picture' />";
+                        $customer_carousel_html .= "</div>";
+                    }
+
+                    $customer_select_buttons_html = "";
+                    if (mysqli_num_rows($result) > 1) {
+                        $customer_select_buttons_html .= <<<HTML
+                            <button class="btn btn-outline-dark carousel-control-prev" type="button" data-bs-target="#customer_image_carousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="btn btn-outline-dark carousel-control-next" type="button" data-bs-target="#customer_image_carousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        HTML;
+                    }
+
+                    echo <<<HTML
+                         <div class="row justify-content-center">
+                            <div class="card mb-3 p-0" id="">
+                                <div class="card-header">
+                                    <h5 class="card-title">Select two images to combine!</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col text-center">
+                                            <h5>Product Image</h5>
+                                            <div id="product_image_carousel" class="carousel slide">
+                                                <div class="carousel-inner booth-carousel" id="carousel-inner">
+                                                    $product_carousel_html
+                                                </div>
+                                                $product_select_buttons_html
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1 d-flex align-items-center justify-content-center">
+                                            <h1>+</h1>
+                                        </div>
+                                        <div class="col text-center">
+                                            <h5>Customer Image</h5>
+                                            <div id="customer_image_carousel" class="carousel slide">
+                                                <div class="carousel-inner booth-carousel" id="carousel-inner">
+                                                    $customer_carousel_html
+                                                </div>
+                                                $customer_select_buttons_html
+                                            </div>
+                                        </div>
+                                        <form id="try_on_booth">
+                                            <input type="hidden" name="customer_id" value="$customer_id" id="input_customer_id">
+                                            <input type="hidden" name="product_id" value="$product_id" id="input_product_id">
+                                            $form_hidden_inputs
+                                        </form>
+                                    </div>                       
+                                </div>
+                                <hr>
+                                <div class="card-header text-center justify-content-center" style="">
+                                    <div id="generate_button">
+                                        <button type="submit" class="btn btn-success mt-5 mb-5" id="generate_booth_image" form="try_on_booth">Generate!</button>
+                                    </div>
+                                    <div class='mt-3 mb-5' id="reset_booth" style="display:none">
+                                        <button class="btn btn-warning" onclick="reset_booth()">Reset</button>
+                                    </div>
+                                    <div class='mb-3' id="booth_image" style="display:none">
+                                    </div>
+                                    <div class="mb-3" id="booth_error_message" style='display:none'>
+                                    </div>
+                                    <div class='mt-3' id="booth_image_spinner" style="display:none">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                        <h3>Image generating... please be patient</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    HTML;
+                }
+            ?>
+        </div>
     </section>
     <!-- Scripts -->
     <script src="../sharedcode/scripts.js"></script>
     <script src="../_js/cart.js"></script>
     <script src="../_js/reviews.js"></script>
     <script src="../_js/view_product.js"></script>
+    <script src="../_js/try_on_booth.js"></script>
 </body>
 </html>
