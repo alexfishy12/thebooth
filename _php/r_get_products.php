@@ -90,7 +90,7 @@
                 //mysqli_close($con);
     
                 // product images query
-                $query = "SELECT pi.id, pi.image_og, pi.image_pp, pi.color_id
+                $query = "SELECT pi.id, pi.image_og, pi.color_id
                     FROM Product_Image pi 
                     WHERE pi.product_id = ?;";
 
@@ -103,7 +103,7 @@
                 if ($result) {
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_array($result)) {
-                            array_push($image_array, array("id" => $row['id'], "image_og" => $row['image_og'], "image_pp" => $row['image_pp'], "color_id" => $row['color_id']));
+                            array_push($image_array, array("id" => $row['id'], "image_og" => $row['image_og'], "color_id" => $row['color_id']));
                         }
                     }
                 }
