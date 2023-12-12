@@ -4,6 +4,6 @@
     }
     $dbuser = "fisheral";
     $dbpass = "1117936";
-    $dbname = "store_template";
+    $dbname = "the_booth";
     $dbserver = "imc.kean.edu";
 ?>

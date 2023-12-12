@@ -8,7 +8,6 @@
     <!-- Load bootstrap icons and stylesheet -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="../sharedcode/styles.css" rel="stylesheet" />
-    <link href="../sharedcode/custom_styles.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -57,17 +56,100 @@
     <section id="items" class="py-5">
         <div class="container px-4 px-lg-5 mt-5">
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" id="items-row">
-            <div class="d-flex justify-content-center">
-                    <div class="spinner-border" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
     <!-- Scripts -->
     <script src="../sharedcode/scripts.js"></script>
-    <script src="../_js/reviews.js"></script>
-    <script src="../_js/main_page.js"></script>
+    <script>
+        var $products;
+        var $row = $('#items-row');
+        //Load Products on page load
+        $(document).ready(function() {
+            $.ajax({
+                url: '../_php/load_products.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $products = data;
+                    $row.empty();
+                    data.forEach(function(product) {
+                        var productCard = `
+                            <div class="col-12 col-md-3 mb-5">
+                                <div class="card h-100">
+                                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                                    <div class="card-body p-4">
+                                        <div class="text-center">
+                                            <h5 class="fw-bolder">${product.name}</h5>
+                                            <p>$${product.price}</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View Item</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        $row.append(productCard);
+                    });
+                }
+            });
+        });
+        //Update Shown Items on section selection
+        $("#Shirt, #Jacket, #Pants, #Dress").click(function () {
+            var sortItem = $(this).attr("id");
+            var selectedProducts = $products.filter(product => product.category === sortItem);
+            $row.empty();
+            selectedProducts.forEach(function(product) {
+                var productCard = `
+                    <div class="col-12 col-md-3 mb-5">
+                        <div class="card h-100">
+                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <h5 class="fw-bolder">${product.name}</h5>
+                                    <p>$${product.price}</p>
+                                </div>
+                            </div>
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View Item</a></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                $row.append(productCard);
+            });
+        });
+        //Search Bar Function
+        $("#Search").click(function() { 
+            var text = document.getElementById('searchBox').value.trim().toLowerCase();
+            var splitText = text.split(' ');
+            var filteredProducts = $products.filter(product => {
+                return splitText.every(selection => 
+                    product.color.toLowerCase().includes(selection) || product.category.toLowerCase().includes(selection)
+                );
+            });
+            $row.empty();
+            filteredProducts.forEach(function(product) {
+                var productCard = `
+                    <div class="col-12 col-md-3 mb-5">
+                        <div class="card h-100">
+                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <h5 class="fw-bolder">${product.name}</h5>
+                                    <p>$${product.price}</p>
+                                </div>
+                            </div>
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View Item</a></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                $row.append(productCard);
+            });
+        });
+    </script>
 </body>
 </html>

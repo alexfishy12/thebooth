@@ -17,53 +17,45 @@
                     </ul>
                 </li> -->
             </ul>
-                <?php 
-                    if (isset($_COOKIE['customer_account_info'])) {
-                        $account_info = json_decode($_COOKIE['customer_account_info'], true);
-                        $first_name = $account_info['first_name'];
-                        $last_name = $account_info['last_name'];
-
-                        if (isset($account_info['cart'])) {
-                            $cart = $account_info['cart'];
-                            $cart_count = count($cart);
-                        }
-                        else {
-                            $cart_count = 0;
-                        }
-
-                        echo <<<HTML
-                            <a href="customer_account.php" class="nav-link text-decoration-none text-primary me-3 mb-1">
-                                $first_name $last_name
-                                <i class="bi bi-person-circle"></i>
-                            </a>
-                            <form class="d-flex me-3 mb-1">
-                                <a class="btn btn-outline-dark" href="customer_cart.php">
-                                    <i class="bi-cart-fill me-1"></i>
-                                    Cart
-                                    <span class="badge bg-dark text-white ms-1 rounded-pill" id='cart_count'>$cart_count</span>
-                                </a>
-                            </form>
-                            <form class="d-flex mb-1">
-                                <a href="logout.php" class="btn btn-danger">
-                                    Logout
-                                    <i class="bi bi-box-arrow-right"></i>
-                                </a>
-                            </form>
-                        HTML;
-                    }
-                    else
-                    {
-                        echo <<<HTML
-                           <form class="d-flex">
-                                <a class="btn btn-primary" href="customer_login.php" >
-                                    Login
-                                    <i class="bi bi-box-arrow-in-left"></i>
-                                </a>
-                            </form>
-                        HTML;
-                    }
-                ?>
-            
+            <?php 
+                if (isset($_COOKIE['customer_account_info'])) {
+                    $account_info = json_decode($_COOKIE['customer_account_info'], true);
+                    $first_name = $account_info['first_name'];
+                    $last_name = $account_info['last_name'];
+                    echo <<<HTML
+                        <a href="customer_account.php" class="text-decoration-none" style="margin-right:10px;">
+                            $first_name $last_name
+                            <i class="bi bi-person-circle"></i>
+                        </a>
+                    HTML;
+                }
+            ?>
+            <?php 
+            if (isset($_COOKIE['customer_account_info'])) {
+                echo <<<HTML
+                    <form class="d-flex">
+                        <button class="btn btn-outline-dark" type="submit">
+                            <i class="bi-cart-fill me-1"></i>
+                            Cart
+                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                        </button>
+                    </form>
+                    <a href="logout.php" class="btn btn-danger" style="margin-left:10px;">
+                        Logout
+                        <i class="bi bi-box-arrow-right"></i>
+                    </a>
+                HTML;
+            }
+            else
+            {
+                echo <<<HTML
+                    <a href="customer_login.php" class="btn btn-primary" style="margin-left:10px;">
+                        Login
+                        <i class="bi bi-box-arrow-in-left"></i>
+                    </a>
+                HTML;
+            }
+            ?>
         </div>
     </div>
 </nav>

@@ -32,7 +32,6 @@
                     <th>Price</th>
                     <th>Status</th>
                 </tr>
-                <?php include("../_php/manager_get_sales.php"); ?>
             </table>
         </div>        
     </div>

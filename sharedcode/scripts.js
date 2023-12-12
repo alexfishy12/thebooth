@@ -37,33 +37,3 @@ function server_request(url, method, data = null) {
         })
     });
 }
-
-function roundToTenth(num) {
-    return Math.round(num * 10) / 10;
-}
-
-function getCookie(name) {
-    var cookieArr = document.cookie.split(';');
-    for (var i = 0; i < cookieArr.length; i++) {
-        var cookiePair = cookieArr[i].split('=');
-        if (name === cookiePair[0].trim()) {
-            return decodeURIComponent(cookiePair[1]);
-        }
-    }
-    return null;
-}
-
-function get_placeholder_img(product) {
-    switch(product.category) {
-        case "shirt":
-            return "../_assets/tshirt_placeholder.png";
-        case "jacket":
-            return "../_assets/jacket_placeholder.png";
-        case "pants":
-            return "../_assets/pants_placeholder.png";
-        case "dress":
-            return "../_assets/dress_placeholder.png";
-        default:
-            return "../_assets/tshirt_placeholder.png";
-    }
-}
