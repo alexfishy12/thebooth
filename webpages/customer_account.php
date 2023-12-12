@@ -81,5 +81,4 @@
 <!-- Scripts -->
 <script src="../sharedcode/scripts.js"></script>
 </body>
-
 </html>
