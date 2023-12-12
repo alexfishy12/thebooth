@@ -64,22 +64,19 @@
         ?>
     </div>
     <!-- Table -->
-<div class="container px-2 px-lg-3 mt-5">
-    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-        <table border="1" id="order-table">
-            <tr>
-                <th>Order Number</th>
-                <th>Order Date</th>
-                <th>Items</th>
-                <th>Price</th>
-                <th>Status</th>
-            </tr>
-            <?php include("../_php/customer_get_sales.php"); ?>
-        </table>
-    </div>        
-</div>
-<!-- Scripts -->
-<script src="../sharedcode/scripts.js"></script>
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            <table border="1" id="order-table">
+                <tr>
+                    <th>Order Number</th>
+                    <th>Order Date</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                </tr>
+            </table>
+        </div>        
+    </div>
+    <!-- Scripts -->
+    <script src="../sharedcode/scripts.js"></script>
 </body>
-
 </html>
