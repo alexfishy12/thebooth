@@ -149,20 +149,26 @@
 
         // INSERT ACCOUNT INTO DATABASE //////////////////////////////////////////////////////
 
+        // start transaction
+        $con->begin_transaction();
+
         // Prepare statement
         $query = "INSERT INTO store_template.Customer (first_name, last_name, email, password, address, city, state, zip, created) VALUES (?, ?, ?, SHA2(?, 256), ?, ?, ?, ?, NOW());";
         $stmt = $con->prepare($query);
         $stmt->bind_param('ssssssss', $first_name, $last_name, $email, $password, $address, $city, $state, $zip);
         
         if (!$stmt) {
+            $con -> rollback();
             return_json_error("Insert failed (prepared statement failed): (" . $con->errno . ") " . $con->error);
         }
         
         if (!$stmt->execute()) {
+            $con -> rollback();
             return_json_error("Insert failed (Execute failed): (" . $stmt->errno . ") " . $stmt->error);
         }
         
         if ($stmt->affected_rows == 0) {
+            $con -> rollback();
             return_json_error("Insert failed, 0 affected rows.");
         }
 
@@ -178,17 +184,48 @@
 
         // INSERT IMAGE INTO DATABASE ///////////////////////////////////////////////////////////
 
+        
         $target_dir = "../__uploads/customer_images/" . $customer_id . "/";
         if (!file_exists($target_dir)) {
             mkdir($target_dir, 0705, true);
         }
-
+        
         $target_basename = basename($image["name"]);
         
         $target_file = $target_dir . $target_basename;
-
+        
         // Attempt to move the OG file
         if (!move_uploaded_file($image["tmp_name"], $target_file)) {
+            $con -> rollback();
+            return_json_error("Sorry, there was an error uploading your file.");
+        }
+        
+
+        // The data you want to send via POST
+        $data = [
+            'customer_id' => $customer_id,
+            'customer_image_name' => $target_basename, 
+        ];
+
+        // URL to send the POST request to
+        $url = 'http://knet-lambda:8080/php/receive.php';
+
+        // Create a stream context
+        $options = [
+            'http' => [
+                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method'  => 'POST',
+                'content' => http_build_query($data),
+            ],
+        ];
+
+        $context = stream_context_create($options);
+
+        // Send the POST request
+        $response = file_get_contents($url, false, $context);
+
+        if ($response === false) {
+            $con -> rollback();
             return_json_error("Sorry, there was an error uploading your file.");
         }
 
@@ -206,6 +243,7 @@
 
         // Execute the prepared statement
         if (!$stmt->execute()) {
+            $con -> rollback();
             print_json_error("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
         }
 
