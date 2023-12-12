@@ -3,8 +3,8 @@ try {
     // URL of the receiving server's script
     $url = 'http://knet-lambda:8080/php/receive.php';
 
-    $customer_id = "15";
-    $target_basename = "mister_tester.png";
+    $customer_id = "20";
+    $target_basename = "tester_resize.jpg";
 
     // The path to the image you want to send
     $imagePath = "../__uploads/customer_images/$customer_id/$target_basename";

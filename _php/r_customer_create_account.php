@@ -201,34 +201,6 @@
         }
         
 
-        // The data you want to send via POST
-        $data = [
-            'customer_id' => $customer_id,
-            'customer_image_name' => $target_basename, 
-        ];
-
-        // URL to send the POST request to
-        $url = 'http://knet-lambda:8080/php/receive.php';
-
-        // Create a stream context
-        $options = [
-            'http' => [
-                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-                'method'  => 'POST',
-                'content' => http_build_query($data),
-            ],
-        ];
-
-        $context = stream_context_create($options);
-
-        // Send the POST request
-        $response = file_get_contents($url, false, $context);
-
-        if ($response === false) {
-            $con -> rollback();
-            return_json_error("Sorry, there was an error uploading your file.");
-        }
-
         // get preprocessed image for ai model
         //$image_pp_blob = get_preprocessed_image($image_og_blob);
         
@@ -246,6 +218,8 @@
             $con -> rollback();
             print_json_error("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
         }
+
+        $con->commit();
 
         // LOGIN TO ACCOUNT ////////////////////////////////////////////////////////////////////
         $account_info = array(

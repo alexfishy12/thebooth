@@ -9,14 +9,16 @@ $(document).ready(function() {
         $("#booth_image").hide();
         $("#booth_image").html("");
         $("#booth_image_spinner").show();
-        setTimeout(generate_booth_image, 1000);
+        setTimeout(try_on_2, 1000);
     });
 });
 
 function generate_booth_image() {
     var formData = get_form_data();
 
-    server_request("http://knet-lambda:8080/test.php", "POST", formData).then(function(response) {
+    console.log(formData);
+    
+    server_request("http://10.100.198.22:8080/php/tryon.php", "POST", formData).then(function(response) {
         // handle response from server
         switch (response.status) {
             case "success":
@@ -37,6 +39,57 @@ function generate_booth_image() {
                 break;
         }
     });
+
+    
+ 
+}
+
+function try_on_2() {
+    var formData = get_form_data();
+
+    console.log(formData);
+    
+    get_image("http://10.100.198.22:8080/php/tryon.php", "POST", formData).then(function(response) {
+        // should receive blob image data
+
+         // Create a URL for the Blob and set it as the image source
+        const imageUrl = URL.createObjectURL(response);
+
+        // Set the src attribute of the image element to the blob URL
+        var imageElement = `<img src="${imageUrl}" alt="Booth Image">`;
+
+        display_booth_image(imageElement);
+    });
+
+    function get_image(url, method, data = null) {
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                type: method,
+                url: url,
+                data: data,
+                processData: false, // Prevent serialization of the FormData object
+                contentType: false, // Let the browser set the correct content type for FormData
+                xhrFields: {
+                    responseType: 'blob' // Expect a blob response
+                },
+                success: function (response, status) {
+                    resolve(response);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    // AJAX Error, server did not respond
+                    reject(new Error("AJAX ERROR (" + textStatus + "): " + errorThrown));
+                }
+            });
+        });
+    }
+}
+
+function display_booth_image(imageElement) {
+    // Update the page with the new image
+    $("#booth_image_spinner").hide();
+    $("#booth_image").html(imageElement);
+    $("#booth_image").show();
+    $("#reset_booth").show();
 }
 
 function reset_booth() {
@@ -56,15 +109,6 @@ function display_booth_error(error_message) {
     $("#reset_booth").show();
 }
 
-function display_booth_image(image) {
-    // grab image from server
-    // var image = "<img src='http://knet-lambda:8080/test.php' alt='booth image' />";
-
-    $("#booth_image_spinner").hide();
-    $("#booth_image").html(image);
-    $("#booth_image").show();
-    $("#reset_booth").show();
-}
 
 function get_form_data() {
     // get image name of the active carousel item for the product carousel
@@ -99,4 +143,6 @@ function get_form_data() {
     formData.append("customer_image", customer_image);
     formData.append("product_id", product_id);
     formData.append("customer_id", customer_id);
+
+    return formData;
 }
