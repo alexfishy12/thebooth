@@ -222,7 +222,7 @@
                 //$image_og_blob = file_get_contents($_FILES['images']['tmp_name'][$color_id]);
     
     
-                $target_basename = $color_id . basename($_FILES['images']['name'][$color_id]);
+                $target_basename = basename($_FILES['images']['name'][$color_id]);
                 $target_file = $target_dir . $target_basename;
     
     

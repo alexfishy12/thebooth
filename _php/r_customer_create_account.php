@@ -149,20 +149,26 @@
 
         // INSERT ACCOUNT INTO DATABASE //////////////////////////////////////////////////////
 
+        // start transaction
+        $con->begin_transaction();
+
         // Prepare statement
         $query = "INSERT INTO store_template.Customer (first_name, last_name, email, password, address, city, state, zip, created) VALUES (?, ?, ?, SHA2(?, 256), ?, ?, ?, ?, NOW());";
         $stmt = $con->prepare($query);
         $stmt->bind_param('ssssssss', $first_name, $last_name, $email, $password, $address, $city, $state, $zip);
         
         if (!$stmt) {
+            $con -> rollback();
             return_json_error("Insert failed (prepared statement failed): (" . $con->errno . ") " . $con->error);
         }
         
         if (!$stmt->execute()) {
+            $con -> rollback();
             return_json_error("Insert failed (Execute failed): (" . $stmt->errno . ") " . $stmt->error);
         }
         
         if ($stmt->affected_rows == 0) {
+            $con -> rollback();
             return_json_error("Insert failed, 0 affected rows.");
         }
 
@@ -178,19 +184,22 @@
 
         // INSERT IMAGE INTO DATABASE ///////////////////////////////////////////////////////////
 
+        
         $target_dir = "../__uploads/customer_images/" . $customer_id . "/";
         if (!file_exists($target_dir)) {
             mkdir($target_dir, 0705, true);
         }
-
+        
         $target_basename = basename($image["name"]);
         
         $target_file = $target_dir . $target_basename;
-
+        
         // Attempt to move the OG file
         if (!move_uploaded_file($image["tmp_name"], $target_file)) {
+            $con -> rollback();
             return_json_error("Sorry, there was an error uploading your file.");
         }
+        
 
         // get preprocessed image for ai model
         //$image_pp_blob = get_preprocessed_image($image_og_blob);
@@ -206,8 +215,11 @@
 
         // Execute the prepared statement
         if (!$stmt->execute()) {
+            $con -> rollback();
             print_json_error("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
         }
+
+        $con->commit();
 
         // LOGIN TO ACCOUNT ////////////////////////////////////////////////////////////////////
         $account_info = array(

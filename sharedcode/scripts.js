@@ -19,7 +19,7 @@ function server_request(url, method, data = null) {
                     // Response is not JSON, Error in PHP was not caught
                     response = {
                         status: 'error', 
-                        data: "Error parsing response from server.\n\nJS ERROR\n" + e + "\n\nPHP ERROR\n" + response
+                        data: "Error parsing response from server.\n\nJS ERROR\n" + e + "\n\nSERVER ERROR\n" + response
                     };
                     resolve(response);
                 }

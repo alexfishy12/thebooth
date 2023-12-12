@@ -93,3 +93,8 @@ div.view-product-carousel .carousel-item img {
     height: 100%;
     width: 100%;
 }
+
+#booth_image img {
+    max-height: 300px;
+    object-fit: contain;
+}
